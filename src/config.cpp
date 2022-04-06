@@ -3,7 +3,14 @@
 //
 #include "config.h"
 
+
 namespace xzmjx{
+    namespace {
+        xzmjx::Logger::ptr g_logger = XZMJX_LOG_NAME("system");
+    }
+
+
+
     void Config::LoadFromYaml(const YAML::Node& rootNode){
 
     }
@@ -12,6 +19,8 @@ namespace xzmjx{
     }
 
     ConfigBase::ptr Config::LookupBase(const std::string&name){
-
+        RWMutexType::ReadLock lock(GetRwMutex());
+        auto iter = GetConfigMap().find(name);
+        return iter == GetConfigMap().end()? nullptr:iter->second;
     }
 }

@@ -377,15 +377,57 @@ public:
      typedef RWMutex RWMutexType;
 
      template<class T>
-     static typename ConfigVar<T>::ptr LookUp(const std::string& name,
+     static typename ConfigVar<T>::ptr Lookup(const std::string& name,
                                               const T& defaultVal,
                                               const std::string& description){
-
-
+         {
+             RWMutexType::ReadLock lock(GetRwMutex());
+             auto iter = GetConfigMap().find(name);
+             if(iter != GetConfigMap().end()){
+                 auto p = std::dynamic_pointer_cast<ConfigVar<T>>(iter->second);
+                if(p){
+                    XZMJX_LOG_INFO(XZMJX_LOG_ROOT())<<"Lookup name = "<<name<<" exists";
+                    return p;
+                }else{
+                    XZMJX_LOG_INFO(XZMJX_LOG_ROOT())<<"Lookup name = "<<name<<" exists but type not "
+                    <<TypeToName<T>()<<" real type = "<<iter->second->getTypeName()<<" "
+                    <<iter->second->toString();
+                    return nullptr;
+                }
+             }
+         }
+         if(name.find_first_not_of("abcdefghijklmnopqrstuvwxyz._1234567890") !=
+            std::string::npos){
+             XZMJX_LOG_ERROR(XZMJX_LOG_ROOT())<<"Lookup name invalid "<<name;
+             throw std::invalid_argument(name);
+         }
+         RWMutexType::WriteLock lock(GetRwMutex());
+         auto iter = GetConfigMap().find(name);
+         if(iter != GetConfigMap().end()){
+             return std::dynamic_pointer_cast<ConfigVar<T>>(iter->second);
+         }
+         typename ConfigVar<T>::ptr val = std::make_shared<ConfigVar<T>>(name,defaultVal,description);
+         GetConfigMap()[name] = val;
+         return val;
      }
-     template<class T>
-     static typename ConfigVar<T>::ptr LookUp(const std::string& name){
 
+     template<class T>
+     static typename ConfigVar<T>::ptr Lookup(const std::string& name){
+         RWMutexType::ReadLock lock(GetRwMutex());
+         auto iter = GetConfigMap().find(name);
+         if(iter == GetConfigMap().end()){
+             return nullptr;
+         }
+         auto p = std::dynamic_pointer_cast<ConfigVar<T>>(iter->second);
+         if(p){
+             XZMJX_LOG_INFO(XZMJX_LOG_ROOT())<<"Lookup name = "<<name<<" exists";
+             return p;
+         }else{
+             XZMJX_LOG_INFO(XZMJX_LOG_ROOT())<<"Lookup name = "<<name<<" exists but type not "
+                                             <<TypeToName<T>()<<" real type = "<<iter->second->getTypeName()<<" "
+                                             <<iter->second->toString();
+             return nullptr;
+         }
      }
 
      static void LoadFromYaml(const YAML::Node& rootNode);
