@@ -5,22 +5,22 @@
 
 
 namespace xzmjx{
-    namespace {
-        xzmjx::Logger::ptr g_logger = XZMJX_LOG_NAME("system");
-    }
+namespace {
+    xzmjx::Logger::ptr g_logger = XZMJX_LOG_NAME("system");
+}
 
 
 
-    void Config::LoadFromYaml(const YAML::Node& rootNode){
+void Config::LoadFromYaml(const YAML::Node& rootNode){
 
-    }
-    void Config::LoadFromConfDir(const std::string& path,bool force){
+}
+void Config::LoadFromConfDir(const std::string& path,bool force){
 
-    }
+}
 
-    ConfigBase::ptr Config::LookupBase(const std::string&name){
-        RWMutexType::ReadLock lock(GetRwMutex());
-        auto iter = GetConfigMap().find(name);
-        return iter == GetConfigMap().end()? nullptr:iter->second;
-    }
+ConfigBase::ptr Config::LookupBase(const std::string&name){
+    RWMutexType::ReadLock lock(GetRwMutex());
+    auto iter = GetConfigMap().find(name);
+    return iter == GetConfigMap().end()? nullptr:iter->second;
+}
 }
