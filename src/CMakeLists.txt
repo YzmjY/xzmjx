@@ -11,7 +11,8 @@ set(LIB_SRC
         scheduler.cpp
         iomanager.cpp
         timer.cpp
-        hook.cpp)
+        hook.cpp
+        fdmanager.cpp)
 set(LIB_LIB pthread yaml-cpp dl)
 
 add_library(xzmjx STATIC ${LIB_SRC})
