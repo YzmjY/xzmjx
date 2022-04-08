@@ -4,7 +4,13 @@
 
 #ifndef XZMJX_HOOK_H
 #define XZMJX_HOOK_H
+#include <sys/ioctl.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <stdint.h>
+#include <time.h>
 #include <unistd.h>
+
 namespace xzmjx{
 bool IsHookEnable();
 void SetHookEnable(bool hook_flag);

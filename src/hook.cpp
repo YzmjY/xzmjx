@@ -5,6 +5,7 @@
 #include "fiber.h"
 #include "log.h"
 #include "iomanager.h"
+#include "fdmanager.h"
 #include <dlfcn.h>
 
 namespace {
@@ -68,6 +69,41 @@ struct _HookIniter{
  * @brief 利用在main函数之前执行静态变量的初始化特性，完成在进入main之前保存hook的原函数
  */
 static _HookIniter s_hook_initer;
+
+template<typename OriginFun,typename... Args>
+static ssize_t do_io(int fd,OriginFun fun,const char* hook_fun_name,
+                     uint32_t event,int timeout_so,Args&&... args){
+    if(!xzmjx::IsHookEnable()){
+        return fun(fd,std::forward<Args>(args)...);
+    }
+    xzmjx::FdCtx::ptr fd_ctx = xzmjx::FdMgr::GetInstance()->get(fd);
+    if(!fd_ctx){
+        errno = EBADF;
+        return -1;
+    }
+
+    if(fd_ctx->isClose()){
+        errno = EBADF;
+        return -1;
+    }
+
+    if(!fd_ctx->isSocket()||fd_ctx->getUserNonblock()){
+        ///@details 用户设置了非阻塞，则用户需要自己为可能发生的读不全结果负责，不hook
+        return fun(fd,std::forward<Args>(args)...);
+    }
+
+    ///@details 用户未设置为非阻塞，但实际均为非阻塞，利用hook后加入epoll或定时器来实现非阻塞的效果。
+    ssize_t n = fun(fd,std::forward<Args>(args)...);
+    while(n == -1&&errno == EINTR){
+        n = fun(fd,std::forward<Args>(args)...);
+    }
+    if(n == -1&&errno == EAGAIN){
+    }
+
+
+}
+
+
 
 extern "C"{
 ///初始化XX(sleep)--->sleep_f = nullptr

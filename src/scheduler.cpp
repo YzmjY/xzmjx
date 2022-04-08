@@ -87,6 +87,12 @@ namespace xzmjx{
                         notify_me = true;
                         continue;
                     }
+                    XZMJX_ASSERT(iter->fiber||iter->taskCb);
+                    if(iter->fiber->getState() == Fiber::FiberState::FIBER_RUNNING){
+                        ++iter;
+                        notify_me = true;
+                        continue;
+                    }
                     task = *iter;
                     m_task.erase(iter);
                     break;
