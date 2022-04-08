@@ -52,6 +52,8 @@ public:
 
     Timer::ptr addTimerEvent(uint64_t ms,std::function<void()> cb,bool recurring = false);
 
+    Timer::ptr addCondTimerEvent(uint64_t ms,std::function<void()> cb,std::weak_ptr<void> cond,bool recurring = false);
+
     TimerManager::ptr timerManager() const{
         return m_timeManager;
     }

@@ -70,6 +70,10 @@ struct _HookIniter{
  */
 static _HookIniter s_hook_initer;
 
+struct timer_info{
+    int cancelled = 0;
+};
+
 template<typename OriginFun,typename... Args>
 static ssize_t do_io(int fd,OriginFun fun,const char* hook_fun_name,
                      uint32_t event,int timeout_so,Args&&... args){
@@ -92,12 +96,52 @@ static ssize_t do_io(int fd,OriginFun fun,const char* hook_fun_name,
         return fun(fd,std::forward<Args>(args)...);
     }
 
+    uint64_t to = fd_ctx->getTimeout(timeout_so);
+    std::shared_ptr<timer_info> t_info = std::make_shared<timer_info>();
+
+retry:
     ///@details 用户未设置为非阻塞，但实际均为非阻塞，利用hook后加入epoll或定时器来实现非阻塞的效果。
     ssize_t n = fun(fd,std::forward<Args>(args)...);
     while(n == -1&&errno == EINTR){
         n = fun(fd,std::forward<Args>(args)...);
     }
+
     if(n == -1&&errno == EAGAIN){
+        ///非阻塞下，由于无数据可读或可写返回，加入观察事件，等待相应事件发生。有超时机制要加入定时器。
+        xzmjx::IOManager* iom = xzmjx::IOManager::Self();
+        std::weak_ptr<timer_info> weak_cond(t_info);
+        xzmjx::Timer::ptr timer = nullptr;
+        if(to != (uint64_t)-1){
+            ///@details 设置有超时时间
+            timer = iom->addCondTimerEvent(to,[weak_cond,fd,iom,event](){
+                auto t = weak_cond.lock();
+                if(!t||t->cancelled==ETIMEDOUT){
+                    return;
+                }
+                t->cancelled - ETIMEDOUT;
+                iom->cancelEvent(fd,(xzmjx::IOManager::Event)event);
+            },weak_cond);
+        }
+        ///@details 挂起当前协程，放在epoll中监听事件
+        int rt = iom->addEvent(fd,(xzmjx::IOManager::Event)event);
+        if(rt){
+            XZMJX_LOG_ERROR(g_logger)<<hook_fun_name<<" addEvent("<<fd<<" ,"<<event<<")";
+            if(timer){
+                timer->cancel();
+            }
+            return -1;
+        }else{
+            xzmjx::Fiber::YieldToHold();
+            if(timer){
+                ///@details 未超时，重置超时事件
+                timer->cancel();
+                if(t_info->cancelled ){
+                    errno = t_info->cancelled;
+                    return -1;
+                }
+                goto retry;
+            }
+        }
     }
 
 
@@ -149,6 +193,34 @@ int nanosleep(const struct timespec *req, struct timespec *rem){
     });
     xzmjx::Fiber::YieldToHold();
     return 0;
+}
+
+ssize_t read(int fd,void* buf,size_t count){
+    return do_io(fd,read_f,"read",xzmjx::IOManager::Event_READ,SO_RCVTIMEO,buf,count);
+}
+
+ssize_t  readv(int fd,const struct iovec *iov,int iovcnt){
+    return do_io(fd, readv_f,"readv",xzmjx::IOManager::Event_READ,SO_RCVTIMEO,iov,iovcnt);
+}
+
+ssize_t recv(int sockfd,void *buf,size_t len,int flags){
+    return do_io(sockfd, recv_f,"recv",xzmjx::IOManager::Event_READ,SO_RCVTIMEO,buf,len,flags);
+}
+
+ssize_t recvfrom(int sockfd,void *buf,size_t len,int flags,struct sockaddr *src_addr,socklen_t *addrlen){
+    return do_io(sockfd, recvfrom,"recvfrom",xzmjx::IOManager::Event_READ,SO_RCVTIMEO,buf,len,flags,src_addr,addrlen);
+}
+
+ssize_t recvmsg(int sockfd,struct msghdr *msg,int flags){
+    return do_io(sockfd,recvmsg_f,"recvmsg",xzmjx::IOManager::Event_READ,SO_RCVTIMEO,msg,flags);
+}
+
+ssize_t write(int fd,const void *buf,size_t count){
+    return do_io(fd,read_f,"read",xzmjx::IOManager::Event_WRITE,SO_RCVTIMEO,buf,count);
+}
+
+ssize_t writev(int fd, const struct iovec *iov,int iovcnt){
+    return do_io(fd, readv_f,"readv",xzmjx::IOManager::Event_WRITE,SO_RCVTIMEO,iov,iovcnt);
 }
 
 

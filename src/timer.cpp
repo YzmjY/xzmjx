@@ -91,10 +91,20 @@ namespace xzmjx{
     }
 
     Timer::ptr TimerManager::addTimer(uint64_t ms,std::function<void()> cb,bool recurring){
-        Timer::ptr timer(new Timer(ms,std::move(cb),recurring,this));
+        Timer::ptr timer(new Timer (ms,std::move(cb),recurring,this));
         RWMutexType::WriteLock lock(m_mutex);
         addTimer(timer,lock);
         return timer;
+    }
+
+    static void OnTimer(std::weak_ptr<void> cond,std::function<void()> cb){
+        std::shared_ptr<void> ptr = cond.lock();
+        if(ptr){
+            cb();
+        }
+    }
+    Timer::ptr TimerManager::addCondTimer(uint64_t ms,std::function<void()> cb,std::weak_ptr<void> cond,bool recurring){
+        return addTimer(ms,std::bind(&OnTimer,cond,cb),recurring);
     }
 
     void TimerManager::listExpiredCb(std::vector<std::function<void()>>& cbs){

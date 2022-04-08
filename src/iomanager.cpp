@@ -252,6 +252,10 @@ namespace xzmjx{
     Timer::ptr IOManager::addTimerEvent(uint64_t ms,std::function<void()> cb,bool recurring){
         return m_timeManager->addTimer(ms,std::move(cb),recurring);
     }
+    Timer::ptr IOManager::addCondTimerEvent(uint64_t ms,std::function<void()> cb,std::weak_ptr<void> cond,bool recurring){
+        return m_timeManager->addCondTimer(ms,std::move(cb),cond,recurring);
+    }
+
 
     IOManager* IOManager::Self(){
         return dynamic_cast<IOManager*>(Scheduler::Self());

@@ -89,6 +89,8 @@ public:
      */
     Timer::ptr addTimer(uint64_t ms,std::function<void()> cb,bool recurring = false);
 
+    Timer::ptr addCondTimer(uint64_t ms,std::function<void()> cb,std::weak_ptr<void> cond,bool recurring = false);
+
     /**
      * @brief 返回当前已到期的定时器，内部会一处过期且不周期执行的定时器，重新添加过期但需要周期执行的定时器
      * @param cbs ：返回值，返回待处理的定时任务

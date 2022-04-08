@@ -9,7 +9,9 @@ namespace {
     xzmjx::Logger::ptr g_logger = XZMJX_LOG_NAME("system");
 }
 
+void ListAllNodes(){
 
+}
 
 void Config::LoadFromYaml(const YAML::Node& rootNode){
 
