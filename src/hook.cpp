@@ -82,8 +82,7 @@ static ssize_t do_io(int fd,OriginFun fun,const char* hook_fun_name,
     }
     xzmjx::FdCtx::ptr fd_ctx = xzmjx::FdMgr::GetInstance()->get(fd);
     if(!fd_ctx){
-        errno = EBADF;
-        return -1;
+        return fun(fd,std::forward<Args>(args)...);
     }
 
     if(fd_ctx->isClose()){
@@ -118,7 +117,7 @@ retry:
                 if(!t||t->cancelled==ETIMEDOUT){
                     return;
                 }
-                t->cancelled - ETIMEDOUT;
+                t->cancelled = ETIMEDOUT;
                 iom->cancelEvent(fd,(xzmjx::IOManager::Event)event);
             },weak_cond);
         }
@@ -143,8 +142,7 @@ retry:
             }
         }
     }
-
-
+    return n;
 }
 
 
