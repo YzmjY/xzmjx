@@ -216,7 +216,7 @@ ssize_t recvmsg(int sockfd,struct msghdr *msg,int flags){
 }
 
 ssize_t write(int fd,const void *buf,size_t count){
-    return do_io(fd,read_f,"read",xzmjx::IOManager::Event_WRITE,SO_RCVTIMEO,buf,count);
+    return do_io(fd,write_f,"write",xzmjx::IOManager::Event_WRITE,SO_RCVTIMEO,buf,count);
 }
 
 ssize_t writev(int fd, const struct iovec *iov,int iovcnt){
