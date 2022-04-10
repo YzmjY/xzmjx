@@ -145,8 +145,6 @@ retry:
     return n;
 }
 
-
-
 extern "C"{
 ///初始化XX(sleep)--->sleep_f = nullptr
 #define XX(name) name ## _fun name ## _f = nullptr;
@@ -185,7 +183,7 @@ int nanosleep(const struct timespec *req, struct timespec *rem){
     }
     xzmjx::Fiber::ptr fiber = xzmjx::Fiber::Self();
     xzmjx::IOManager* iom = xzmjx::IOManager::Self();
-    int timeout_ms = req->tv_sec*1000+req->tv_nsec/1000/1000;
+    uint64_t timeout_ms = req->tv_sec*1000+req->tv_nsec/1000/1000;
     iom->addTimerEvent(timeout_ms,[&iom,&fiber](){
         iom->submit(fiber);
     });
@@ -193,6 +191,7 @@ int nanosleep(const struct timespec *req, struct timespec *rem){
     return 0;
 }
 
+///@details read
 ssize_t read(int fd,void* buf,size_t count){
     return do_io(fd,read_f,"read",xzmjx::IOManager::Event_READ,SO_RCVTIMEO,buf,count);
 }
@@ -213,17 +212,66 @@ ssize_t recvmsg(int sockfd,struct msghdr *msg,int flags){
     return do_io(sockfd,recvmsg_f,"recvmsg",xzmjx::IOManager::Event_READ,SO_RCVTIMEO,msg,flags);
 }
 
+///@details write
 ssize_t write(int fd,const void *buf,size_t count){
-    return do_io(fd,write_f,"write",xzmjx::IOManager::Event_WRITE,SO_RCVTIMEO,buf,count);
+    return do_io(fd,write_f,"write",xzmjx::IOManager::Event_WRITE,SO_SNDTIMEO,buf,count);
 }
 
 ssize_t writev(int fd, const struct iovec *iov,int iovcnt){
-    return do_io(fd, readv_f,"readv",xzmjx::IOManager::Event_WRITE,SO_RCVTIMEO,iov,iovcnt);
+    return do_io(fd, readv_f,"readv",xzmjx::IOManager::Event_WRITE,SO_SNDTIMEO,iov,iovcnt);
 }
 
+ssize_t send(int s, const void *msg, size_t len, int flags){
+    return do_io(s,send_f,"send",xzmjx::IOManager::Event_WRITE,SO_SNDTIMEO,msg,len,flags);
 
+}
 
+ssize_t sendto(int s, const void *msg, size_t len, int flags, const struct sockaddr *to, socklen_t tolen){
+    return do_io(s,sendto_f,"sendto",xzmjx::IOManager::Event_WRITE,SO_SNDTIMEO,msg,len,flags,to,tolen);
+}
 
+ssize_t sendmsg(int s, const struct msghdr *msg, int flags){
+    return do_io(s,sendmsg_f,"sendmsg",xzmjx::IOManager::Event_WRITE,SO_SNDTIMEO,msg,flags);
+}
+
+int close(int fd){
+    if(!xzmjx::IsHookEnable()){
+        return close_f(fd);
+    }
+    xzmjx::FdCtx::ptr ctx = xzmjx::FdMgr::GetInstance()->get(fd);
+    if(ctx){
+        auto iom = xzmjx::IOManager::Self();
+        if(iom){
+            iom->cancelAll(fd);
+        }
+        xzmjx::FdMgr::GetInstance()->del(fd);
+    }
+    return close_f(fd);
+}
+
+///@details others
+int fcntl(int fd, int cmd, ... /* arg */ ){
+
+}
+
+int ioctl(int d, unsigned long int request, ...){
+
+}
+
+int getsockopt(int sockfd, int level, int optname, void *optval, socklen_t *optlen){
+    return getsockopt_f(sockfd,level,optname,optval,optlen);
+}
+
+int setsockopt(int sockfd, int level, int optname, const void *optval, socklen_t optlen){
+    if(!xzmjx::IsHookEnable()){
+        return setsockopt_f(sockfd,level,optname,optval,optlen);
+    }
+
+}
+
+int connect_with_timeout(int fd, const struct sockaddr* addr, socklen_t addrlen, uint64_t timeout_ms){
+
+}
 
 }
 
