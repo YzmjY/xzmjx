@@ -13,7 +13,7 @@
 #include<stdlib.h>
 #include<unistd.h>
 #include<errno.h>
-
+#include<vector>
 #define COND_CHECK(func, cond, retv, errv) \
 if ( (cond) ) \
 { \

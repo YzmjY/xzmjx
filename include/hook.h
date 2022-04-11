@@ -10,6 +10,7 @@
 #include <stdint.h>
 #include <time.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 namespace xzmjx{
 bool IsHookEnable();
