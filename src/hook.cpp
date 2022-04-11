@@ -255,7 +255,20 @@ int fcntl(int fd, int cmd, ... /* arg */ ){
 }
 
 int ioctl(int d, unsigned long int request, ...){
+    va_list va;
+    va_start(va,request);
+    void* arg = va_arg(va,void*);
+    va_end(va);
 
+    if(request == FIONBIO){
+        bool user_nonblock = !!(*(int*)arg);
+        xzmjx::FdCtx::ptr ctx = xzmjx::FdMgr::GetInstance()->get(d);
+        if(!ctx||ctx->isClose()||!ctx->isSocket()){
+            return ioctl_f(d,request,arg);
+        }
+        ctx->setUserNonblock(user_nonblock);
+    }
+    return ioctl_f(d,request,arg);
 }
 
 int getsockopt(int sockfd, int level, int optname, void *optval, socklen_t *optlen){
@@ -266,11 +279,92 @@ int setsockopt(int sockfd, int level, int optname, const void *optval, socklen_t
     if(!xzmjx::IsHookEnable()){
         return setsockopt_f(sockfd,level,optname,optval,optlen);
     }
-
+    if(level == SOL_SOCKET){
+        if(optname == SO_RCVTIMEO||optname == SO_SNDTIMEO){
+            xzmjx::FdCtx::ptr ctx = xzmjx::FdMgr::GetInstance()->get(sockfd);
+            if(ctx){
+                const timeval* v = (const timeval*)optval;
+                ctx->setTimeout(optname,v->tv_sec*1000+v->tv_usec/1000);
+            }
+        }
+    }
+    return setsockopt_f(sockfd,level,optname,optval,optlen);
 }
-
+///@details socket
 int connect_with_timeout(int fd, const struct sockaddr* addr, socklen_t addrlen, uint64_t timeout_ms){
+    if(!xzmjx::IsHookEnable()){
+        return connect_f(fd,addr,addrlen);
+    }
+    xzmjx::FdCtx::ptr ctx = xzmjx::FdMgr::GetInstance()->get(fd);
+    if(!ctx||ctx->isClose()){
+        errno = EBADF;
+        return -1;
+    }
+    if(!ctx->isSocket()){
+        return connect_f(fd,addr,addrlen);
+    }
 
+    if(ctx->getUserNonblock()){
+        return connect_f(fd,addr,addrlen);
+    }
+
+    int rt = connect_f(fd,addr,addrlen);
+    if(rt == 0){
+        return 0;
+    }else if(rt != -1||errno != EINPROGRESS){
+        return rt;
+    }
+
+    ///@details 设置超时定时器，yield该协程
+    xzmjx::IOManager* iom = xzmjx::IOManager::Self();
+    xzmjx::Timer::ptr timer;
+    std::shared_ptr<timer_info> t_info = std::make_shared<timer_info>();
+    std::weak_ptr<timer_info> winfo(t_info);
+
+    if(timeout_ms != (uint64_t)-1){
+        timer = iom->addCondTimerEvent(timeout_ms,[winfo,fd,iom](){
+            auto ptr = winfo.lock();
+            if(!ptr||ptr->cancelled){
+                return;
+            }
+            ptr->cancelled = ETIMEDOUT;
+
+            ///@details 如果超时，这里会触发一次事件，结果是该协程从yield点后返回
+            iom->cancelEvent(fd,xzmjx::IOManager::Event_WRITE);
+        },winfo);
+    }
+
+    ///@details 添加监听事件，等待超时或者connect成功，超时会由于cancelEvent触发写事件将fiber加入调度
+    ///Connect返回会由于epoll触发可写，epoll_wait返回，fiber加入调度，在yield点后返回
+    rt = iom->addEvent(fd,xzmjx::IOManager::Event_WRITE);
+    if(rt == 0){
+        xzmjx::Fiber::YieldToHold();
+        if(timer){
+            timer->cancel();
+        }
+        if(t_info->cancelled){
+            ///@details 由于超时返回
+            errno = t_info->cancelled;
+            return -1;
+        }
+    }else{
+        if(timer){
+            timer->cancel();
+        }
+        XZMJX_LOG_ERROR(g_logger)<<"connect addEvent("<<fd<<",WRITE) error";
+    }
+
+    int error = 0;
+    socklen_t len = sizeof(int);
+    if(-1 == getsockopt(fd,SOL_SOCKET,SO_ERROR,&error,&len)){
+        return -1;
+    }
+    if(!error){
+        return 0;
+    }else{
+        errno = error;
+        return -1;
+    }
 }
 
 }
