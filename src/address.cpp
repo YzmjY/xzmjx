@@ -3,13 +3,30 @@
 //
 #include "address.h"
 #include "log.h"
+#include <netdb.h>
 namespace xzmjx {
+namespace {
+    xzmjx::Logger::ptr g_logger = XZMJX_LOG_NAME("system");
+}
+
+template<typename T>
+static uint32_t CountBits(T v){
+    uint32_t ans=0;
+    while(v){
+        v&=(v-1);
+        ans++;
+    }
+    return ans;
+}
+
+template<typename T>
+static T CreateMask(uint32_t bits){
+    return (1<<(sizeof(T)*8-bits)) -1;
+}
 Address::ptr Address::Create(const sockaddr *addr, socklen_t addrlen) {
     if(addr == nullptr){
         return nullptr;
     }
-
-
     Address::ptr result;
     switch (addr->sa_family) {
         case AF_INET:
@@ -30,6 +47,34 @@ bool Address::Lookup(std::vector<Address::ptr> &result,
                      int family,
                      int type,
                      int protocol) {
+    addrinfo hint,*results,*next;
+    hint.ai_flags = 0;
+    hint.ai_family = family;
+    hint.ai_socktype = type;
+    hint.ai_protocol = protocol;
+    hint.ai_addrlen = 0;
+    hint.ai_canonname = NULL;
+    hint.ai_addr = NULL;
+    hint.ai_next = NULL;
+
+    std::string node;
+    const char* service = NULL;
+
+
+    int error = getaddrinfo(node.c_str(),service,&hint,&results);
+    if(error){
+        XZMJX_LOG_ERROR(g_logger)<<"Address::Lookup getaddress("<<host<<","
+                                 <<family<<", "<<type<<") err = "<<error<<" errstr = "
+                                 <<gai_strerror(error);
+        return false;
+    }
+    next = results;
+    while(next){
+        result.push_back(Create(next->ai_addr,(socklen_t)next->ai_addrlen));
+        next = next->ai_next;
+    }
+    freeaddrinfo(results);
+    return !result.empty();
 }
 
 
@@ -37,13 +82,27 @@ Address::ptr Address::LookupAny(const std::string &host,
                                 int family,
                                 int type,
                                 int protocol) {
-
+    std::vector<Address::ptr> result;
+    if(Lookup(result,host,family,type,protocol)){
+        return result[0];
+    }
+    return nullptr;
 }
 
 std::shared_ptr<IPAddress> Address::LookupAnyIPAddress(const std::string &host,
                                                        int family,
                                                        int type,
                                                        int protocol) {
+    std::vector<Address::ptr> result;
+    if(Lookup(result,host,family,type,protocol)){
+        for(auto it:result){
+            IPAddress::ptr v = std::dynamic_pointer_cast<IPAddress>(it);
+            if(v){
+                return v;
+            }
+        }
+    }
+    return nullptr;
 }
 
 
@@ -63,8 +122,10 @@ int Address::getFamily() const {
 }
 
 
-std::string Address::toString() const {
-
+std::string Address::toString() {
+    std::stringstream ss;
+    insert(ss);
+    return ss.str();
 }
 
 bool Address::operator<(const Address &rhs) const {
@@ -81,6 +142,7 @@ bool Address::operator!=(const Address &rhs) const {
 
 
 IPAddress::ptr IPAddress::Create(const char *address, uint16_t port) {
+
 }
 
 

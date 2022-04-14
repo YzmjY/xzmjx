@@ -56,7 +56,9 @@ public:
 
     virtual socklen_t getAddrLen() const = 0;
 
-    std::string toString() const;
+    virtual std::ostream& insert(std::ostream& out) = 0;
+
+    std::string toString();
 
     bool operator<(const Address& rhs) const;
 
@@ -101,6 +103,8 @@ public:
 
     IPAddress::ptr subnetMask(uint32_t prefix_len) override;
 
+    std::ostream& insert(std::ostream& out) override;
+
     uint32_t getPort() const override;
 
     void setPort(uint16_t port) override;
@@ -127,6 +131,9 @@ public:
 
     IPAddress::ptr subnetMask(uint32_t prefix_len) override;
 
+    std::ostream& insert(std::ostream& out) override;
+
+
     uint32_t getPort() const override;
 
     void setPort(uint16_t port) override;
@@ -147,6 +154,8 @@ public:
     sockaddr* getAddr() override;
 
     socklen_t getAddrLen() const override;
+
+    std::ostream& insert(std::ostream& out) override;
 
     void setAddrLen(uint32_t v);
 
@@ -169,6 +178,9 @@ public:
     sockaddr* getAddr() override;
 
     socklen_t getAddrLen() const override;
+
+    std::ostream& insert(std::ostream& out) override;
+
 private:
     sockaddr m_address;
 };
