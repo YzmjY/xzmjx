@@ -10,6 +10,9 @@
 #include <string>
 #include <vector>
 #include <cxxabi.h>
+#include <bit>
+#include <byteswap.h>
+
 
 namespace xzmjx{
 class FSUtil{
@@ -34,6 +37,32 @@ const char* TypeToName(){
     static const char* s_name = abi::__cxa_demangle(typeid(T).name(), nullptr, nullptr, nullptr);
     return s_name;
 }
+
+template<typename T>
+T ByteSwap(T value){
+    if(sizeof(T) == sizeof(uint8_t)){
+        return value;
+    }else if(sizeof(T) == sizeof(uint16_t)){
+        return (T) bswap_16((uint16_t)value);
+    }else if(sizeof(T) == sizeof(uint32_t)){
+        return (T) bswap_32((uint32_t)value);
+    }else if(sizeof(T) == sizeof(uint64_t)){
+        return (T) bswap_64((uint64_t)value);
+    }
+    return -1;
+}
+
+template<typename T>
+T EndianCast(T value){
+    if(std::endian::native == std::endian::little){
+        return ByteSwap(value);
+    }else{
+        return value;
+    }
+
+}
+
+
 
 }///namespace xzmjx
 
