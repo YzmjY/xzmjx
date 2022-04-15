@@ -2,6 +2,7 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 set(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -rdynamic -g -std=c++14  -Wall -Werror -Wno-deprecated -Wno-unused-function ")
 
 set(LIB_SRC
+        address.cpp
         log.cpp
         util.cpp
         #config.cpp
