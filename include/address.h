@@ -69,8 +69,6 @@ public:
 class IPAddress:public Address{
 public:
     typedef std::shared_ptr<IPAddress> ptr;
-    IPAddress() = default;
-    ~IPAddress() = default;
 
     static IPAddress::ptr Create(const char* address,uint16_t port = 0);
 
@@ -87,7 +85,7 @@ public:
 
 class IPv4Address:public IPAddress{
 public:
-    typedef std::shared_ptr<IPAddress> ptr;
+    typedef std::shared_ptr<IPv4Address> ptr;
     static IPv4Address::ptr Create(const char* address,uint16_t port = 0);
 
     IPv4Address(const sockaddr_in& address);
@@ -115,9 +113,10 @@ private:
 
 class IPv6Address:public IPAddress{
 public:
-    typedef std::shared_ptr<IPAddress> ptr;
+    typedef std::shared_ptr<IPv6Address> ptr;
     static IPv6Address::ptr Create(const char* address,uint16_t port = 0);
 
+    IPv6Address();
     IPv6Address(const sockaddr_in6& address);
     IPv6Address(const uint8_t address[16],uint16_t port = 0);
 
