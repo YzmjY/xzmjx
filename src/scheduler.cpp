@@ -11,7 +11,7 @@ namespace xzmjx{
     static thread_local Scheduler* t_scheduler;
 
     Scheduler::Scheduler(size_t thrNum,const std::string& name)
-        :m_name(name),m_thrNum(thrNum){
+        : m_name(name), m_thr_num(thrNum){
         XZMJX_LOG_DEBUG(g_logger)<<"Scheduler::Scheduler()";
         t_scheduler = this;
     }
@@ -30,26 +30,26 @@ namespace xzmjx{
             return;
         }
         m_stopping = false;
-        XZMJX_ASSERT(m_threadPool.empty());
+        XZMJX_ASSERT(m_thread_pool.empty());
 
         ///@details 调度线程初始化
-        m_threadPool.resize(m_thrNum);
-        m_threadIds.resize(m_thrNum);
-        for(size_t i = 0; i < m_thrNum; ++i){
-            m_threadPool[i].reset(new Thread([this] { this->run(); }
+        m_thread_pool.resize(m_thr_num);
+        m_thread_ids.resize(m_thr_num);
+        for(size_t i = 0; i < m_thr_num; ++i){
+            m_thread_pool[i].reset(new Thread([this] { this->run(); }
                                              ,m_name+"_"+std::to_string(i)));
-            m_threadIds[i] = m_threadPool[i]->getThreadId();
+            m_thread_ids[i] = m_thread_pool[i]->getThreadId();
         }
     }
 
     void Scheduler::stop(){
         m_stopping = true;
-        for(size_t i = 0;i<m_thrNum;i++){
+        for(size_t i = 0; i < m_thr_num; i++){
             notify();
         }
 
         std::vector<Thread::ptr> vec;
-        vec.swap(m_threadPool);
+        vec.swap(m_thread_pool);
         for(auto&& thr:vec){
             thr->join();
         }
@@ -106,9 +106,9 @@ namespace xzmjx{
                 notify();
             }
             if(task.fiber){
-                ++m_activeThreadNum;
+                ++m_active_thread_num;
                 task.fiber->resume();
-                --m_activeThreadNum;
+                --m_active_thread_num;
 
                 ///如果协程仍处于READY，则继续将其添加至任务队列，等待下次调度。
                 if(task.fiber->getState() == Fiber::FIBER_READY){
@@ -116,7 +116,7 @@ namespace xzmjx{
                 }
                 task.reset();
             }else if(task.taskCb){
-                ++m_activeThreadNum;
+                ++m_active_thread_num;
                 if(task_fb){
                     task_fb->reset(task.taskCb);
                 }else{
@@ -124,7 +124,7 @@ namespace xzmjx{
                 }
                 task.reset();
                 task_fb->resume();
-                --m_activeThreadNum;
+                --m_active_thread_num;
                 if(task_fb->getState() == Fiber::FIBER_READY){
                     submit(task_fb,task.threadId);
                     ///此时这个协程被安插进任务队列，不可用来复用处理下次的任务
@@ -142,9 +142,9 @@ namespace xzmjx{
                     ///此时调度器已经停止，不再进行调度。
                     break;
                 }
-                ++m_idleThreadNum;
+                ++m_idle_thread_num;
                 wait->resume();
-                --m_idleThreadNum;
+                --m_idle_thread_num;
             }
         }
     }
@@ -164,6 +164,6 @@ namespace xzmjx{
 
     bool Scheduler::canStop(){
         MutexType::Lock lock(m_mutex);
-        return m_stopping&&m_activeThreadNum==0&&m_task.empty();
+        return m_stopping && m_active_thread_num == 0 && m_task.empty();
     }
 }

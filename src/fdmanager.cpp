@@ -12,14 +12,14 @@
 
 namespace xzmjx{
     FdCtx::FdCtx(int fd):
-        m_isInit(false),
-        m_isSocket(false),
-        m_sysNonblock(false),
-        m_userNonblock(false),
-        m_isClosed(false),
-        m_fd(fd),
-        m_recvTimeout(-1),
-        m_sendTimeout(-1){
+            m_is_init(false),
+            m_is_socket(false),
+            m_sys_nonblock(false),
+            m_user_nonblock(false),
+            m_is_closed(false),
+            m_fd(fd),
+            m_recv_timeout(-1),
+            m_send_timeout(-1){
         init();
     }
 
@@ -29,46 +29,46 @@ namespace xzmjx{
 
 
     bool FdCtx::init(){
-        if(m_isInit){
+        if(m_is_init){
             return true;
         }
-        m_recvTimeout = -1;
-        m_sendTimeout = -1;
+        m_recv_timeout = -1;
+        m_send_timeout = -1;
         struct stat fd_stat;
         if(-1 == fstat(m_fd,&fd_stat)){
-            m_isInit = false;
-            m_isSocket = false;
+            m_is_init = false;
+            m_is_socket = false;
         }else{
-            m_isInit = true;
-            m_isSocket = S_ISSOCK(m_fd);
+            m_is_init = true;
+            m_is_socket = S_ISSOCK(m_fd);
         }
 
-        if(m_isSocket){
+        if(m_is_socket){
             int flags = fcntl_f(m_fd,F_GETFL,0);
             if(!(flags&O_NONBLOCK)){
                 fcntl_f(m_fd,F_SETFL,flags|O_NONBLOCK);
-                m_sysNonblock = true;
+                m_sys_nonblock = true;
             }else{
-                m_sysNonblock = false;
+                m_sys_nonblock = false;
             }
         }
 
-        m_userNonblock = false;
-        m_isClosed = false;
-        return m_isInit;
+        m_user_nonblock = false;
+        m_is_closed = false;
+        return m_is_init;
     }
     void FdCtx::setTimeout(int type,uint64_t timeout){
         if(type == SO_RCVTIMEO){
-            m_recvTimeout = timeout;
+            m_recv_timeout = timeout;
         }else{
-            m_sendTimeout = timeout;
+            m_send_timeout = timeout;
         }
     }
     uint64_t FdCtx::getTimeout(int type) const{
         if(type == SO_RCVTIMEO){
-            return m_recvTimeout;
+            return m_recv_timeout;
         }else{
-            return m_sendTimeout;
+            return m_send_timeout;
         }
     }
 

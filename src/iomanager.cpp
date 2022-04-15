@@ -54,23 +54,23 @@ namespace xzmjx{
     IOManager::IOManager(size_t thrNum,const std::string& name)
                 : Scheduler(thrNum,name){
         XZMJX_LOG_DEBUG(g_logger)<<"IOManager::IOManager()";
-        m_timeManager.reset(new TimerManager());
-        m_timeManager->setInsertAtFrontCb(std::bind(&IOManager::notify,this));
-        m_epollFd = epoll_create(1);
-        XZMJX_ASSERT(m_epollFd != 0);
+        m_time_manager.reset(new TimerManager());
+        m_time_manager->setInsertAtFrontCb(std::bind(&IOManager::notify, this));
+        m_epoll_fd = epoll_create(1);
+        XZMJX_ASSERT(m_epoll_fd != 0);
 
-        int rt = pipe(m_tickleFds);
+        int rt = pipe(m_tickle_fds);
         XZMJX_ASSERT(rt == 0);
 
         epoll_event event;
         memset(&event,0,sizeof event);
         event.events = EPOLLET|EPOLLIN;
-        event.data.fd = m_tickleFds[0];
+        event.data.fd = m_tickle_fds[0];
 
-        rt = fcntl(m_tickleFds[0],F_SETFL,O_NONBLOCK);
+        rt = fcntl(m_tickle_fds[0], F_SETFL, O_NONBLOCK);
         XZMJX_ASSERT(rt == 0);
 
-        rt =epoll_ctl(m_epollFd,EPOLL_CTL_ADD,m_tickleFds[0],&event);
+        rt =epoll_ctl(m_epoll_fd, EPOLL_CTL_ADD, m_tickle_fds[0], &event);
         XZMJX_ASSERT(rt == 0);
 
         contextResize(32);
@@ -79,12 +79,12 @@ namespace xzmjx{
 
     IOManager::~IOManager(){
         stop();
-        close(m_epollFd);
-        close(m_tickleFds[0]);
-        close(m_tickleFds[1]);
-        for(size_t i = 0;i< m_fdContexts.size();i++){
-            if(m_fdContexts[i]){
-                delete m_fdContexts[i];
+        close(m_epoll_fd);
+        close(m_tickle_fds[0]);
+        close(m_tickle_fds[1]);
+        for(size_t i = 0; i < m_fd_contexts.size(); i++){
+            if(m_fd_contexts[i]){
+                delete m_fd_contexts[i];
             }
         }
     }
@@ -92,16 +92,16 @@ namespace xzmjx{
     int IOManager::addEvent(int fd,Event event,std::function<void()> cb){
         FdContext* fd_ctx = nullptr;
         MutexType::ReadLock lock(m_mutex);
-        if(static_cast<int>(m_fdContexts.size())<=fd){
+        if(static_cast<int>(m_fd_contexts.size()) <= fd){
             ///需要扩容，按照1.5倍大小扩容
             lock.unlock();
             MutexType::WriteLock lock1(m_mutex);
-            if(static_cast<int>(m_fdContexts.size())<=fd){
+            if(static_cast<int>(m_fd_contexts.size()) <= fd){
                 contextResize(fd*1.5);
             }
-            fd_ctx = m_fdContexts[fd];
+            fd_ctx = m_fd_contexts[fd];
         }else{
-            fd_ctx = m_fdContexts[fd];
+            fd_ctx = m_fd_contexts[fd];
         }
         FdContext::MutexType::Lock lock1(fd_ctx->m_mutex);
         if(fd_ctx->events&event){
@@ -115,19 +115,19 @@ namespace xzmjx{
         epevent.events = EPOLLET|fd_ctx->events|event;
         epevent.data.ptr = fd_ctx;
 
-        int rt = epoll_ctl(m_epollFd,op,fd,&epevent);
+        int rt = epoll_ctl(m_epoll_fd, op, fd, &epevent);
         if(rt){
-            XZMJX_LOG_ERROR(g_logger)<<"epoll_ctl"<<"("<<m_epollFd<<","
-                                     <<static_cast<EpollCtlOp>(op)<<","
-                                     <<fd<<static_cast<EPOLL_EVENTS>(epevent.events)
-                                     <<"):ret = "<<rt<< " (" << errno << ") ("
-                                     << strerror(errno) << ") fd_ctx->events="
-                                     << (EPOLL_EVENTS)fd_ctx->events;
+            XZMJX_LOG_ERROR(g_logger) << "epoll_ctl" << "(" << m_epoll_fd << ","
+                                      << static_cast<EpollCtlOp>(op) << ","
+                                      << fd << static_cast<EPOLL_EVENTS>(epevent.events)
+                                      << "):ret = " << rt << " (" << errno << ") ("
+                                      << strerror(errno) << ") fd_ctx->events="
+                                      << (EPOLL_EVENTS)fd_ctx->events;
 
             return -1;
         }
 
-        ++m_pendingEventCount;
+        ++m_pending_event_count;
         fd_ctx->events = static_cast<Event>(fd_ctx->events|event);
         FdContext::EventContext& event_ctx = fd_ctx->getContext(event);
         XZMJX_ASSERT(!event_ctx.scheduler&&
@@ -144,10 +144,10 @@ namespace xzmjx{
 
     bool IOManager::delEvent(int fd,Event event){
         MutexType::ReadLock lock(m_mutex);
-        if(fd>=static_cast<int>(m_fdContexts.size())){
+        if(fd>=static_cast<int>(m_fd_contexts.size())){
             return false;
         }
-        FdContext* fd_ctx = m_fdContexts[fd];
+        FdContext* fd_ctx = m_fd_contexts[fd];
         lock.unlock();
 
         FdContext::MutexType::Lock lock1(fd_ctx->m_mutex);
@@ -161,17 +161,17 @@ namespace xzmjx{
         epevent.events = EPOLLET|new_events;
         epevent.data.ptr = fd_ctx;
 
-        int rt = epoll_ctl(m_epollFd,op,fd,&epevent);
+        int rt = epoll_ctl(m_epoll_fd, op, fd, &epevent);
         if(rt){
-            XZMJX_LOG_ERROR(g_logger)<<"epoll_ctl"<<"("<<m_epollFd<<","
-                                     <<static_cast<EpollCtlOp>(op)<<","
-                                     <<fd<<static_cast<EPOLL_EVENTS>(epevent.events)
-                                     <<"):ret = "<<rt<< " (" << errno << ") ("
-                                     << strerror(errno) << ") fd_ctx->events="
-                                     << (EPOLL_EVENTS)fd_ctx->events;
+            XZMJX_LOG_ERROR(g_logger) << "epoll_ctl" << "(" << m_epoll_fd << ","
+                                      << static_cast<EpollCtlOp>(op) << ","
+                                      << fd << static_cast<EPOLL_EVENTS>(epevent.events)
+                                      << "):ret = " << rt << " (" << errno << ") ("
+                                      << strerror(errno) << ") fd_ctx->events="
+                                      << (EPOLL_EVENTS)fd_ctx->events;
             return false;
         }
-        --m_pendingEventCount;
+        --m_pending_event_count;
         fd_ctx->events = new_events;
         FdContext::EventContext& event_ctx = fd_ctx->getContext(event);
         fd_ctx->resetContext(event_ctx);///重置对应fd的对应事件上下文
@@ -180,10 +180,10 @@ namespace xzmjx{
 
     bool IOManager::cancelEvent(int fd,Event event){
         MutexType::ReadLock lock(m_mutex);
-        if(fd>=static_cast<int>(m_fdContexts.size())){
+        if(fd>=static_cast<int>(m_fd_contexts.size())){
             return false;
         }
-        FdContext* fd_ctx = m_fdContexts[fd];
+        FdContext* fd_ctx = m_fd_contexts[fd];
         lock.unlock();
 
         FdContext::MutexType::Lock lock1(fd_ctx->m_mutex);
@@ -197,27 +197,27 @@ namespace xzmjx{
         epevent.events = EPOLLET|new_events;
         epevent.data.ptr = fd_ctx;
 
-        int rt = epoll_ctl(m_epollFd,op,fd,&epevent);
+        int rt = epoll_ctl(m_epoll_fd, op, fd, &epevent);
         if(rt){
-            XZMJX_LOG_ERROR(g_logger)<<"epoll_ctl"<<"("<<m_epollFd<<","
-                                     <<static_cast<EpollCtlOp>(op)<<","
-                                     <<fd<<static_cast<EPOLL_EVENTS>(epevent.events)
-                                     <<"):ret = "<<rt<< " (" << errno << ") ("
-                                     << strerror(errno) << ") fd_ctx->events="
-                                     << (EPOLL_EVENTS)fd_ctx->events;
+            XZMJX_LOG_ERROR(g_logger) << "epoll_ctl" << "(" << m_epoll_fd << ","
+                                      << static_cast<EpollCtlOp>(op) << ","
+                                      << fd << static_cast<EPOLL_EVENTS>(epevent.events)
+                                      << "):ret = " << rt << " (" << errno << ") ("
+                                      << strerror(errno) << ") fd_ctx->events="
+                                      << (EPOLL_EVENTS)fd_ctx->events;
             return false;
         }
         fd_ctx->triggerContext(event);
-        --m_pendingEventCount;
+        --m_pending_event_count;
         return true;
     }
 
     bool IOManager::cancelAll(int fd){
         MutexType::ReadLock lock(m_mutex);
-        if(fd>=static_cast<int>(m_fdContexts.size())){
+        if(fd>=static_cast<int>(m_fd_contexts.size())){
             return false;
         }
-        FdContext* fd_ctx = m_fdContexts[fd];
+        FdContext* fd_ctx = m_fd_contexts[fd];
         lock.unlock();
 
         FdContext::MutexType::Lock lock1(fd_ctx->m_mutex);
@@ -230,14 +230,14 @@ namespace xzmjx{
         epevent.events = 0;
         epevent.data.ptr = fd_ctx;
 
-        int rt = epoll_ctl(m_epollFd,op,fd,&epevent);
+        int rt = epoll_ctl(m_epoll_fd, op, fd, &epevent);
         if(rt){
-            XZMJX_LOG_ERROR(g_logger)<<"epoll_ctl"<<"("<<m_epollFd<<","
-                                     <<static_cast<EpollCtlOp>(op)<<","
-                                     <<fd<<static_cast<EPOLL_EVENTS>(epevent.events)
-                                     <<"):ret = "<<rt<< " (" << errno << ") ("
-                                     << strerror(errno) << ") fd_ctx->events="
-                                     << (EPOLL_EVENTS)fd_ctx->events;
+            XZMJX_LOG_ERROR(g_logger) << "epoll_ctl" << "(" << m_epoll_fd << ","
+                                      << static_cast<EpollCtlOp>(op) << ","
+                                      << fd << static_cast<EPOLL_EVENTS>(epevent.events)
+                                      << "):ret = " << rt << " (" << errno << ") ("
+                                      << strerror(errno) << ") fd_ctx->events="
+                                      << (EPOLL_EVENTS)fd_ctx->events;
             return false;
         }
         if(fd_ctx->events&Event_READ){
@@ -245,15 +245,15 @@ namespace xzmjx{
         }else if(fd_ctx->events&Event_WRITE){
             fd_ctx->triggerContext(Event_WRITE);
         }
-        --m_pendingEventCount;
+        --m_pending_event_count;
         return true;
     }
 
     Timer::ptr IOManager::addTimerEvent(uint64_t ms,std::function<void()> cb,bool recurring){
-        return m_timeManager->addTimer(ms,std::move(cb),recurring);
+        return m_time_manager->addTimer(ms, std::move(cb), recurring);
     }
     Timer::ptr IOManager::addCondTimerEvent(uint64_t ms,std::function<void()> cb,std::weak_ptr<void> cond,bool recurring){
-        return m_timeManager->addCondTimer(ms,std::move(cb),cond,recurring);
+        return m_time_manager->addCondTimer(ms, std::move(cb), cond, recurring);
     }
 
 
@@ -268,7 +268,7 @@ namespace xzmjx{
         }
         XZMJX_LOG_INFO(g_logger)<<"notify";
         ///写端写入一个字节唤醒处于epoll_wait的调度线程
-        int rt = write(m_tickleFds[1],"T",1);
+        int rt = write(m_tickle_fds[1], "T", 1);
         XZMJX_ASSERT(rt == 1);
     }
 
@@ -295,7 +295,7 @@ namespace xzmjx{
                     next_timer = MAX_TIME_SLOT;
                 }
 
-                rt =  epoll_wait(m_epollFd,events,MAX_EVENTS,next_timer);
+                rt =  epoll_wait(m_epoll_fd, events, MAX_EVENTS, next_timer);
                 if(rt<0&&errno == EINTR) {
                     continue;
                 }else {
@@ -304,16 +304,16 @@ namespace xzmjx{
 
             }while(true);
             std::vector<std::function<void()>> timer_cbs;
-            m_timeManager->listExpiredCb(timer_cbs);
+            m_time_manager->listExpiredCb(timer_cbs);
             XZMJX_LOG_DEBUG(g_logger)<<"Expire Timer Count = "<<timer_cbs.size();
             submit(timer_cbs.begin(),timer_cbs.end());
 
             for(int i = 0; i<rt;++i){
                 epoll_event& event = events[i];
-                if(event.data.fd == m_tickleFds[0]){
+                if(event.data.fd == m_tickle_fds[0]){
                     ///任务队列有任务待取,消息只起到notify作用，无实际意义
                     char dummy[256];
-                    while(read(m_tickleFds[0],dummy,sizeof dummy)>0);
+                    while(read(m_tickle_fds[0], dummy, sizeof dummy) > 0);
                     XZMJX_LOG_INFO(g_logger)<<"notify receive";
                     continue;
                 }
@@ -342,25 +342,25 @@ namespace xzmjx{
                 int left_event = fd_ctx->events&~real_event;
                 int op = left_event?EPOLL_CTL_MOD:EPOLL_CTL_DEL;
                 event.events = left_event|EPOLLET;
-                int rt2 = epoll_ctl(m_epollFd,op,fd_ctx->fd,&event);
+                int rt2 = epoll_ctl(m_epoll_fd, op, fd_ctx->fd, &event);
                 if(rt2){
-                    XZMJX_LOG_ERROR(g_logger)<<"epoll_ctl"<<"("<<m_epollFd<<","
-                                             <<static_cast<EpollCtlOp>(op)<<","
-                                             <<fd_ctx->fd<<","<<static_cast<EPOLL_EVENTS>(event.events)
-                                             <<"):ret = "<<rt<< " (" << errno << ") ("
-                                             << strerror(errno) << ") fd_ctx->events="
-                                             << (EPOLL_EVENTS)fd_ctx->events;
+                    XZMJX_LOG_ERROR(g_logger) << "epoll_ctl" << "(" << m_epoll_fd << ","
+                                              << static_cast<EpollCtlOp>(op) << ","
+                                              << fd_ctx->fd << "," << static_cast<EPOLL_EVENTS>(event.events)
+                                              << "):ret = " << rt << " (" << errno << ") ("
+                                              << strerror(errno) << ") fd_ctx->events="
+                                              << (EPOLL_EVENTS)fd_ctx->events;
                     continue;
                 }
 
                 if(real_event&Event_READ){
                     fd_ctx->triggerContext(Event_READ);
-                    --m_pendingEventCount;
+                    --m_pending_event_count;
                 }
 
                 if(real_event&Event_WRITE){
                     fd_ctx->triggerContext(Event_WRITE);
-                    --m_pendingEventCount;
+                    --m_pending_event_count;
                 }
             }
             Fiber::YieldToHold();
@@ -371,18 +371,18 @@ namespace xzmjx{
         return canStop(next_timer);
     }
     bool IOManager::canStop(uint64_t& next_timer){
-        next_timer = m_timeManager->getNextTimerInterval();
+        next_timer = m_time_manager->getNextTimerInterval();
         return next_timer == ~0ull &&
-               m_pendingEventCount == 0&&
+               m_pending_event_count == 0 &&
                Scheduler::canStop();
     }
 
     void IOManager::contextResize(size_t size){
-        m_fdContexts.resize(size);
+        m_fd_contexts.resize(size);
         for(size_t  i = 0; i<size;i++){
-            if(m_fdContexts[i] == nullptr){
-                m_fdContexts[i] = new FdContext();
-                m_fdContexts[i]->fd = i;
+            if(m_fd_contexts[i] == nullptr){
+                m_fd_contexts[i] = new FdContext();
+                m_fd_contexts[i]->fd = i;
             }
         }
     }

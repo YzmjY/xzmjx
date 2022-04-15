@@ -206,7 +206,7 @@ protected:
     LogFormatter::ptr m_formatter;
     LogLevel m_level;
     MutexType m_mutex;
-    bool m_hasFormatter;
+    bool m_has_formatter;
 };
 
 class StdOutLogAppender:public LogAppender{
@@ -226,7 +226,7 @@ public:
 private:
     std::string m_filename;     ///日志文件名
     std::ofstream m_filestream; ///文件打开流
-    uint64_t m_lastTime = 0;    ///上次打开时间
+    uint64_t m_last_time = 0;    ///上次打开时间
 };
 
 //日志器，拥有多个LogAppender，与用户直接相关，将日志事件落地到appender中

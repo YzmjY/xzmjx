@@ -19,29 +19,29 @@ public:
     ~FdCtx();
     bool init();
 
-    bool isInit() const {return m_isInit;}
+    bool isInit() const {return m_is_init;}
 
-    bool isSocket() const {return m_isSocket;}
+    bool isSocket() const {return m_is_socket;}
 
-    bool isClose() const { return m_isClosed;}
+    bool isClose() const { return m_is_closed;}
 
-    void setSysNonblock(bool flag){ m_sysNonblock = flag;}
-    bool getSysNonblock() const { return m_sysNonblock;}
+    void setSysNonblock(bool flag){ m_sys_nonblock = flag;}
+    bool getSysNonblock() const { return m_sys_nonblock;}
 
-    void setUserNonblock(bool flag){ m_userNonblock = flag;}
-    bool getUserNonblock() const { return m_userNonblock;}
+    void setUserNonblock(bool flag){ m_user_nonblock = flag;}
+    bool getUserNonblock() const { return m_user_nonblock;}
 
     void setTimeout(int type,uint64_t timeout);
     uint64_t getTimeout(int type) const;
 private:
-    bool m_isInit:1;
-    bool m_isSocket:1;
-    bool m_sysNonblock:1;
-    bool m_userNonblock:1;
-    bool m_isClosed:1;
+    bool m_is_init:1;
+    bool m_is_socket:1;
+    bool m_sys_nonblock:1;
+    bool m_user_nonblock:1;
+    bool m_is_closed:1;
     int m_fd;
-    uint64_t m_recvTimeout;
-    uint64_t m_sendTimeout;
+    uint64_t m_recv_timeout;
+    uint64_t m_send_timeout;
 };
 
 
