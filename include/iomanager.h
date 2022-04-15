@@ -55,7 +55,7 @@ public:
     Timer::ptr addCondTimerEvent(uint64_t ms,std::function<void()> cb,std::weak_ptr<void> cond,bool recurring = false);
 
     TimerManager::ptr timerManager() const{
-        return m_timeManager;
+        return m_time_manager;
     }
     static IOManager* Self();
 
@@ -68,12 +68,12 @@ protected:
     void contextResize(size_t size);
 
 private:
-    std::vector<FdContext*> m_fdContexts;      ///所有fd的上下文，使用fd作为下标寻址
-    int m_epollFd = 0;                         ///epoll文件描述符
-    int m_tickleFds[2];                        ///管道的读写两端，用来notify等在epoll_wait的调度器线程，具体来说，wait协程会监视管道的读端
-    std::atomic<size_t> m_pendingEventCount = {0};///当前待执行的事件数
+    std::vector<FdContext*> m_fd_contexts;      ///所有fd的上下文，使用fd作为下标寻址
+    int m_epoll_fd = 0;                         ///epoll文件描述符
+    int m_tickle_fds[2];                        ///管道的读写两端，用来notify等在epoll_wait的调度器线程，具体来说，wait协程会监视管道的读端
+    std::atomic<size_t> m_pending_event_count = {0};///当前待执行的事件数
     RWMutex m_mutex;
-    TimerManager::ptr m_timeManager;
+    TimerManager::ptr m_time_manager;
 };
 }///namespace xzmjx
 

@@ -187,18 +187,18 @@ protected:
     virtual bool canStop();
 
     bool hasIdleThreads(){
-        return m_idleThreadNum>0;
+        return m_idle_thread_num > 0;
     }
 
 private:
     MutexType m_mutex;                      ///互斥锁
     std::list<Task> m_task;                 ///待处理的任务，可以是协程，可以是function
-    std::vector<Thread::ptr> m_threadPool;  ///调度线程池，每个线程上运行一个调度器，调度其上的任务
+    std::vector<Thread::ptr> m_thread_pool;  ///调度线程池，每个线程上运行一个调度器，调度其上的任务
     std::string m_name;                     ///协程调度器的名称
-    std::vector<uint64_t> m_threadIds;
-    size_t m_thrNum = 0;                        ///线程总数
-    std::atomic<size_t> m_activeThreadNum{0};     ///活跃线程数
-    std::atomic<size_t> m_idleThreadNum{0};       ///空闲线程数
+    std::vector<uint64_t> m_thread_ids;
+    size_t m_thr_num = 0;                        ///线程总数
+    std::atomic<size_t> m_active_thread_num{0};     ///活跃线程数
+    std::atomic<size_t> m_idle_thread_num{0};       ///空闲线程数
     bool m_stopping = true;
 };
 }///namespace xzmjx

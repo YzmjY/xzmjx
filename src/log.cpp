@@ -330,7 +330,7 @@ namespace xzmjx{
         }
     }
 
-    LogAppender::LogAppender():m_level(LogLevel::DEBUG),m_hasFormatter(false){
+    LogAppender::LogAppender(): m_level(LogLevel::DEBUG), m_has_formatter(false){
 
     }
 
@@ -338,9 +338,9 @@ namespace xzmjx{
         MutexType::Lock lock(m_mutex);
         m_formatter = format;
         if(m_formatter) {
-            m_hasFormatter = true;
+            m_has_formatter = true;
         }else{
-            m_hasFormatter = false;
+            m_has_formatter = false;
         }
     }
 
@@ -361,7 +361,7 @@ namespace xzmjx{
     }
     void FileLogAppender::log(std::shared_ptr<Logger> logger,LogLevel level,LogEvent::ptr event){
         time_t now = time(NULL);
-        if(m_lastTime < static_cast<uint64_t>(now) - 3){
+        if(m_last_time < static_cast<uint64_t>(now) - 3){
             reopen();
         }
         if(level>=m_level){
@@ -419,7 +419,7 @@ namespace xzmjx{
         MutexType::Lock lock(m_mutex);
         if(appender->getFormat() == nullptr){
             LogAppender::MutexType::Lock l(appender->m_mutex);
-            if(!appender->m_hasFormatter){
+            if(!appender->m_has_formatter){
                 appender->m_formatter = m_formatter;
             }
         }
@@ -447,7 +447,7 @@ namespace xzmjx{
         ///@TODO:没搞清楚m_hasFormatter的作用
         for(auto&& i:m_appenders){
             LogAppender::MutexType::Lock l(i->m_mutex);
-            if(!i->m_hasFormatter){
+            if(!i->m_has_formatter){
                 i->m_formatter = formtter;
             }
         }

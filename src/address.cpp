@@ -61,6 +61,31 @@ bool Address::Lookup(std::vector<Address::ptr> &result,
     std::string node;
     const char* service = NULL;
 
+    ///ipv6 [xx:xx:xx:xx::xx::xx::xx::xx]:port
+    if(!host.empty() && host[0] == '[') {
+        const char* endipv6 = (const char*)memchr(host.c_str() + 1, ']', host.size() - 1);
+        if(endipv6) {
+            if(*(endipv6 + 1) == ':') {
+                service = endipv6 + 2;
+            }
+            node = host.substr(1, endipv6 - host.c_str() - 1);
+        }
+    }
+
+    ///对于如下情况：www.baidu.com:80
+    if(node.empty()) {
+        service = (const char*)memchr(host.c_str(), ':', host.size());
+        if(service) {
+            if(!memchr(service + 1, ':', host.c_str() + host.size() - service - 1)) {
+                node = host.substr(0, service - host.c_str());
+                ++service;
+            }
+        }
+    }
+
+    if(node.empty()) {
+        node = host;
+    }
 
     int error = getaddrinfo(node.c_str(),service,&hint,&results);
     if(error){
