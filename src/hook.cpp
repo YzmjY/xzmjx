@@ -205,7 +205,7 @@ ssize_t recv(int sockfd,void *buf,size_t len,int flags){
 }
 
 ssize_t recvfrom(int sockfd,void *buf,size_t len,int flags,struct sockaddr *src_addr,socklen_t *addrlen){
-    return do_io(sockfd, recvfrom,"recvfrom",xzmjx::IOManager::Event_READ,SO_RCVTIMEO,buf,len,flags,src_addr,addrlen);
+    return do_io(sockfd, recvfrom_f,"recvfrom",xzmjx::IOManager::Event_READ,SO_RCVTIMEO,buf,len,flags,src_addr,addrlen);
 }
 
 ssize_t recvmsg(int sockfd,struct msghdr *msg,int flags){
@@ -468,7 +468,7 @@ int connect(int sockfd,const struct sockaddr *addr,socklen_t addrlen){
 
 int accept(int sockfd,struct sockaddr *addr,socklen_t *addrlen){
     int fd = do_io(sockfd, accept_f,"accept",xzmjx::IOManager::Event_READ,SO_RCVTIMEO,addr,addrlen);
-    if(fd>=0){
+    if(fd>=0&&xzmjx::IsHookEnable()){
         xzmjx::FdMgr::GetInstance()->get(fd,true);
     }
     return fd;

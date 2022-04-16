@@ -13,7 +13,8 @@ set(LIB_SRC
         iomanager.cpp
         timer.cpp
         hook.cpp
-        fdmanager.cpp)
+        fdmanager.cpp
+        socket.cpp)
 set(LIB_LIB pthread yaml-cpp dl)
 
 add_library(xzmjx STATIC ${LIB_SRC})
