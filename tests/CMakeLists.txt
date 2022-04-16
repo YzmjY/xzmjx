@@ -24,6 +24,7 @@ xzmjx_add_executable(test_iomanager  test_iomanager.cpp xzmjx ${LIB})
 xzmjx_add_executable(test_timer  test_timer.cpp xzmjx ${LIB})
 xzmjx_add_executable(test_hook  test_hook.cpp xzmjx ${LIB})
 xzmjx_add_executable(test_address  test_address.cpp xzmjx ${LIB})
+xzmjx_add_executable(test_socket  test_socket.cpp xzmjx ${LIB})
 
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)

@@ -11,10 +11,31 @@
 #include <memory>
 
 namespace xzmjx{
+///@TODO: 是不是意味着只有启用了hook才能使用这个socket，不然FdMgr一应该找不到
 class Socket:public std::enable_shared_from_this<Socket>,Noncopyable{
 public:
     typedef std::shared_ptr<Socket> ptr;
     typedef std::weak_ptr<Socket> weak_ptr;
+    enum Type{
+        TCP = SOCK_STREAM,
+        UDP = SOCK_DGRAM
+    };
+
+    enum Family{
+        IPv4 = AF_INET,
+        IPv6 = AF_INET6,
+        UNIX = AF_UNIX
+    };
+
+    static Socket::ptr CreateTCP(Address::ptr address);
+    static Socket::ptr CreateUDP(Address::ptr address);
+    static Socket::ptr CreateTCPSocket();
+    static Socket::ptr CreateUDPSocket();
+    static Socket::ptr CreateTCPSocket6();
+    static Socket::ptr CreateUDPSocket6();
+    static Socket::ptr CreateUnixTCPSocket();
+    static Socket::ptr CreateUnicUDPSocket();
+
 
     Socket(int family,int type,int protocol = 0);
     ~Socket();
@@ -24,6 +45,23 @@ public:
 
     uint64_t getRecvTimeout();
     void setRecvTimeout(uint64_t v);
+
+    bool getOpt(int level,int optname,void* optval,socklen_t* optlen);
+
+    template<class T>
+    bool getOpt(int level,int optname,T& optval){
+        socklen_t length = sizeof(optval);
+        return getOpt(level,optname,&optval,&length);
+    }
+
+    bool setOpt(int level,int optname,const void* optval,socklen_t optlen);
+
+    template<class T>
+    bool setOpt(int level,int optname,const T& optval){
+        socklen_t length = sizeof(optval);
+        return setOpt(level,optname,&optval,length);
+    }
+
 
     ///服务端流程：socket->bind->listen->accept
     Socket::ptr accept();
@@ -39,10 +77,10 @@ public:
     int send(const iovec* buffers,size_t length,int flags = 0);
     int sendTo(const void* buffer,size_t length,const Address::ptr address, int flags = 0);
     int sendTo(const iovec* buffers,size_t length,const Address::ptr address,int flags = 0);
-    int recv(const void* buffer,size_t length,int flags = 0);
-    int recv(const iovec* buffers,size_t length,int flags = 0);
-    int recvFrom(const void* buffer,size_t length,const Address::ptr address, int flags = 0);
-    int recvFrom(const iovec* buffers,size_t length,const Address::ptr address,int flags = 0);
+    int recv(void* buffer,size_t length,int flags = 0);
+    int recv(iovec* buffers,size_t length,int flags = 0);
+    int recvFrom(void* buffer,size_t length,const Address::ptr address, int flags = 0);
+    int recvFrom(iovec* buffers,size_t length,const Address::ptr address,int flags = 0);
 
     Address::ptr getLocalAddress();
     Address::ptr getPeerAddress();
@@ -63,7 +101,7 @@ public:
     bool cancelRead();
     bool cancelWrite();
     bool cancelAll();
-    bool canAccept();
+    bool cancelAccept();
 
 
 
@@ -71,6 +109,7 @@ public:
 public:
     void initSock();
     void newSock();
+    bool init(int sock);
 
 private:
     int m_sock_fd;
