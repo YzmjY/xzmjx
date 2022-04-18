@@ -4,27 +4,30 @@
 #include "log.h"
 #include "socket.h"
 #include "iomanager.h"
+#include <sys/socket.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+#include "fdmanager.h"
 
 static xzmjx::Logger::ptr g_logger = XZMJX_LOG_ROOT();
 
 void test_socket(){
-    xzmjx::IPAddress::ptr addr = xzmjx::Address::LookupAnyIPAddress("www.baidu.com");
+    xzmjx::IPAddress::ptr addr = xzmjx::Address::LookupAnyIPAddress("127.0.0.1");
     if(addr){
         XZMJX_LOG_INFO(g_logger)<<"host:www.baidu.com address:"<<addr->toString();
     }else{
         XZMJX_LOG_ERROR(g_logger)<<"host:www.baidu.com address: failed";
     }
-
     xzmjx::Socket::ptr sock = xzmjx::Socket::CreateTCP(addr);
-    addr->setPort(80);
+    addr->setPort(8089);
     XZMJX_LOG_INFO(g_logger)<<"addr="<<addr->toString();
-    bool rt = sock->connect(addr);
+    int rt = sock->connect(addr);
     if(!rt){
         XZMJX_LOG_ERROR(g_logger)<<"connect "<<addr->toString()<<" failed";
     }else{
         XZMJX_LOG_INFO(g_logger)<<"connect "<<addr->toString()<<" connected";
     }
-
     const char buff[] = "GET / HTTP/1.0\r\n\r\n";
     rt = sock->send(buff,sizeof(buff));
     if(rt<=0){
@@ -45,7 +48,9 @@ void test_socket(){
 
 
 int main(){
+
+
     xzmjx::IOManager iom(1);
-    iom.submit(test_socket);
+    iom.submit(std::bind(test_socket));
     return 0;
 }

@@ -5,19 +5,10 @@
 #include "log.h"
 #include <netdb.h>
 #include <stddef.h>
+#include "fdmanager.h"
 namespace xzmjx {
 namespace {
     xzmjx::Logger::ptr g_logger = XZMJX_LOG_NAME("system");
-}
-
-template<typename T>
-static uint32_t CountBits(T v){
-    uint32_t ans=0;
-    while(v){
-        v&=(v-1);
-        ans++;
-    }
-    return ans;
 }
 
 template<typename T>
@@ -87,7 +78,17 @@ bool Address::Lookup(std::vector<Address::ptr> &result,
         node = host;
     }
 
+    if(xzmjx::FdMgr::GetInstance()->get(6)){
+        XZMJX_LOG_INFO(g_logger)<<xzmjx::FdMgr::GetInstance()->get(6)->toString();
+    }else{
+        XZMJX_LOG_INFO(g_logger)<<"fd = 6 not init";
+    }
     int error = getaddrinfo(node.c_str(),service,&hint,&results);
+    if(xzmjx::FdMgr::GetInstance()->get(6)){
+        XZMJX_LOG_INFO(g_logger)<<xzmjx::FdMgr::GetInstance()->get(6)->toString();
+    }else{
+        XZMJX_LOG_INFO(g_logger)<<"fd = 6 not init";
+    }
     if(error){
         XZMJX_LOG_ERROR(g_logger)<<"Address::Lookup getaddress("<<host<<","
                                  <<family<<", "<<type<<") err = "<<error<<" errstr = "
@@ -203,13 +204,9 @@ IPAddress::ptr IPAddress::Create(const char *address, uint16_t port) {
     }
 }
 
-
-
-
-
 IPv4Address::ptr IPv4Address::Create(const char *address, uint16_t port) {
     IPv4Address::ptr rt(new IPv4Address);
-    rt->m_address.sin_port = EndianCast(port);
+    rt->m_address.sin_port = EndianCastOnLittle(port);
     int result = inet_pton(AF_INET, address, &rt->m_address.sin_addr);
     if (result <= 0) {
         XZMJX_LOG_ERROR(g_logger) << "IPv4Address::Create(" << address << ", "
@@ -225,9 +222,9 @@ IPv4Address::IPv4Address(const sockaddr_in &address) {
 }
 
 IPv4Address::IPv4Address(uint32_t address, uint16_t port) {
-    m_address.sin_addr.s_addr = EndianCast(address);
+    m_address.sin_addr.s_addr = EndianCastOnLittle(address);
     m_address.sin_family = AF_INET;
-    m_address.sin_port = EndianCast(port);
+    m_address.sin_port = EndianCastOnLittle(port);
 
 }
 
@@ -250,7 +247,7 @@ IPAddress::ptr IPv4Address::broadcastAddress(uint32_t prefix_len) {
     }
     uint32_t ipv4_mask = CreateMask<uint32_t>(prefix_len); ///创建32-prefix_len（子网掩码）个1
     sockaddr_in copy = m_address;
-    copy.sin_addr.s_addr |= EndianCast(ipv4_mask);
+    copy.sin_addr.s_addr |= EndianCastOnLittle(ipv4_mask);
     IPv4Address::ptr ans = std::make_shared<IPv4Address>(copy);
     return ans;
 }
@@ -262,7 +259,7 @@ IPAddress::ptr IPv4Address::networkAddress(uint32_t prefix_len) {
     }
     uint32_t ipv4_mask = CreateMask<uint32_t>(prefix_len);
     sockaddr_in copy = m_address;
-    copy.sin_addr.s_addr &= ~EndianCast(ipv4_mask);///@TODO 待测试
+    copy.sin_addr.s_addr &= ~EndianCastOnLittle(ipv4_mask);///@TODO 待测试
     IPv4Address::ptr ans = std::make_shared<IPv4Address>(copy);
     return ans;
 }
@@ -270,7 +267,7 @@ IPAddress::ptr IPv4Address::networkAddress(uint32_t prefix_len) {
 IPAddress::ptr IPv4Address::subnetMask(uint32_t prefix_len) {
     sockaddr_in subnet;
     memset(&subnet,0,sizeof(subnet));
-    subnet.sin_addr.s_addr = ~EndianCast(CreateMask<uint32_t>(prefix_len));
+    subnet.sin_addr.s_addr = ~EndianCastOnLittle(CreateMask<uint32_t>(prefix_len));
     subnet.sin_family = AF_INET;
     IPv4Address::ptr ans = std::make_shared<IPv4Address>(subnet);
     return ans;
@@ -278,26 +275,26 @@ IPAddress::ptr IPv4Address::subnetMask(uint32_t prefix_len) {
 
 std::ostream& IPv4Address::insert(std::ostream& out){
     ///socketaddr里保存的是网络字节序，转换为主机字节序
-    uint32_t  addr = EndianCast(m_address.sin_addr.s_addr);
+    uint32_t  addr = EndianCastOnLittle(m_address.sin_addr.s_addr);
     out<<((addr>>24)&0xff)<<":"
        <<((addr>>16)&0xff)<<":"
        <<((addr>>8)&0xff)<<":"
        <<(addr&0xff);
-    out<<":"<<EndianCast(m_address.sin_port);
+    out << ":" << EndianCastOnLittle(m_address.sin_port);
     return out;
 }
 
 uint32_t IPv4Address::getPort() const {
-    return EndianCast(m_address.sin_port);
+    return EndianCastOnLittle(m_address.sin_port);
 }
 
 void IPv4Address::setPort(uint16_t port) {
-    m_address.sin_port = EndianCast(port);
+    m_address.sin_port = EndianCastOnLittle(port);
 }
 
 IPv6Address::ptr IPv6Address::Create(const char *address, uint16_t port) {
     IPv6Address::ptr ans = std::make_shared<IPv6Address>();
-    ans->m_address.sin6_port = EndianCast(port);
+    ans->m_address.sin6_port = EndianCastOnLittle(port);
     ans->m_address.sin6_family = AF_INET6;
     int error = inet_pton(AF_INET6,address,&ans->m_address.sin6_addr);
     if(error<=0){
@@ -317,7 +314,7 @@ IPv6Address::IPv6Address() {
     m_address.sin6_family = AF_INET6;
 }
 IPv6Address::IPv6Address(const uint8_t address[16], uint16_t port) {
-    m_address.sin6_port = EndianCast(port);
+    m_address.sin6_port = EndianCastOnLittle(port);
     m_address.sin6_family = AF_INET6;
     ///@TODO： 这里已经是网络字节序了？怎么与IPv4的不一致
     memcpy(&m_address.sin6_addr.s6_addr,address,16);
@@ -337,10 +334,7 @@ socklen_t IPv6Address::getAddrLen() const {
 
 std::ostream& IPv6Address::insert(std::ostream& out){
     out<<"[";
-    ///@details: IPv6格式 ： xx:xx:xx:xx:xx:xx:xx:xx,保存在一组字节数组中(uint_8[16])
-    ///这128位被分为8个十六位块，每个16位块是网络字节序，所以需要转换字节序
-    ///通过转为uint16_t的数组来转换网络字节序为主机字节序
-    uint16_t* addr = (uint16_t*)m_address.sin6_addr.s6_addr;///转换为主机字节序
+    uint16_t* addr = (uint16_t*)m_address.sin6_addr.s6_addr;
     bool used_zero = false;
     for(size_t i = 0;i<8;i++){
         ///@details IPv6地址中一连串的0可以忽略，例如2001:0000:3238:00E1:0063:0000:0000:FEFB->2001:0:3238:E1:0063::FEFB
@@ -352,9 +346,16 @@ std::ostream& IPv6Address::insert(std::ostream& out){
             out<<":";
             used_zero = true;
         }
+        if(i) {
+            out << ":";
+        }
         ///@details 十六进制格式输出，输出完成后恢复流为十进制
-        out<<std::hex<<(int) EndianCast(addr[i])<<std::dec;
+        out << std::hex << (int) EndianCastOnLittle(addr[i]) << std::dec;
     }
+    if(!used_zero&&addr[7] == 0){
+        out<<"::";
+    }
+    out<<"]:"<<EndianCastOnLittle(m_address.sin6_port);
     return out;
 }
 
@@ -390,11 +391,11 @@ IPAddress::ptr IPv6Address::subnetMask(uint32_t prefix_len) {
 }
 
 uint32_t IPv6Address::getPort() const {
-    return EndianCast(m_address.sin6_port);
+    return EndianCastOnLittle(m_address.sin6_port);
 }
 
 void IPv6Address::setPort(uint16_t port) {
-    m_address.sin6_port = EndianCast(port);
+    m_address.sin6_port = EndianCastOnLittle(port);
 }
 
 ///@TODO: 减去/0的位置？

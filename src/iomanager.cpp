@@ -42,7 +42,7 @@ namespace xzmjx{
     void IOManager::FdContext::triggerContext(Event event) {
         XZMJX_ASSERT(event&events);
         events = static_cast<Event>(events&(~event));
-        EventContext ctx = getContext(event);
+        FdContext::EventContext& ctx = getContext(event);
         if(ctx.fiber){
             ctx.scheduler->submit(std::move(ctx.fiber));
         }else{

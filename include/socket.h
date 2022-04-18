@@ -66,7 +66,7 @@ public:
     ///服务端流程：socket->bind->listen->accept
     Socket::ptr accept();
     bool bind(const Address::ptr addr);
-    bool listen(int backlog);
+    bool listen(int backlog = 5);
 
     ///客户端流程:connect
     bool connect(const Address::ptr addr,uint64_t timeout_ms = -1);

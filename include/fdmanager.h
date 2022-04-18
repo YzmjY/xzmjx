@@ -33,6 +33,8 @@ public:
 
     void setTimeout(int type,uint64_t timeout);
     uint64_t getTimeout(int type) const;
+
+    std::string toString();
 private:
     bool m_is_init:1;
     bool m_is_socket:1;

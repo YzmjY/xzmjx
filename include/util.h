@@ -52,16 +52,29 @@ T ByteSwap(T value){
     return -1;
 }
 
+enum EndianType{
+            XZMJX_Little_Endian,
+            XZMJX_Big_Endian
+        };
+
 template<typename T>
-T EndianCast(T value){
+T EndianCastOnLittle(T value){
     if(std::endian::native == std::endian::little){
         return ByteSwap(value);
     }else{
         return value;
     }
-
 }
-
+template<typename T>
+T EndianCastByType(T value,EndianType type){
+    if(type == XZMJX_Little_Endian&&std::endian::native == std::endian::big){
+        return ByteSwap(value);
+    }else if(type == XZMJX_Big_Endian&&std::endian::native == std::endian::little){
+        return ByteSwap(value);
+    }else{
+        return value;
+    }
+}
 
 
 }///namespace xzmjx
