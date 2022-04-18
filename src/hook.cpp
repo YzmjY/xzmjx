@@ -6,11 +6,14 @@
 #include "log.h"
 #include "iomanager.h"
 #include "fdmanager.h"
+#include "config.h"
 #include <dlfcn.h>
 
 namespace {
     bool thread_local t_enable_hook = false;
     xzmjx::Logger::ptr g_logger = XZMJX_LOG_NAME("system");
+    xzmjx::ConfigVar<int>::ptr g_tcp_connect_timeout =
+            xzmjx::Config::Lookup("tcp.connect.timeout",5000,"tcp connect timeout");
 }
 namespace xzmjx{
     bool IsHookEnable(){
@@ -62,6 +65,11 @@ static uint64_t s_connect_timeout = -1;
 struct _HookIniter{
     _HookIniter(){
         hook_init();
+        s_connect_timeout = g_tcp_connect_timeout->getValue();
+        g_tcp_connect_timeout->addListener([](const int& old_val,const int& new_val){
+            XZMJX_LOG_INFO(g_logger)<<"tcp connect timeout change from "<<old_val<<" to "<<new_val;
+            s_connect_timeout = new_val;
+        });
     }
 };
 
@@ -131,15 +139,15 @@ retry:
             return -1;
         }else{
             xzmjx::Fiber::YieldToHold();
-            if(timer){
+            if(timer) {
                 ///@details 未超时，重置超时事件
                 timer->cancel();
-                if(t_info->cancelled ){
-                    errno = t_info->cancelled;
-                    return -1;
-                }
-                goto retry;
             }
+            if(t_info->cancelled ){
+                errno = t_info->cancelled;
+                return -1;
+            }
+            goto retry;
         }
     }
     return n;

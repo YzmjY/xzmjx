@@ -270,7 +270,7 @@ public:
       * @brief 返回配置参数值的类型描述
       * @return
       */
-     virtual const std::string& getTypeName() = 0;
+     virtual std::string getTypeName() = 0;
 
  protected:
      std::string m_name;
@@ -333,7 +333,7 @@ public:
          return m_val;
      }
 
-     const std::string& getTypeName() override{
+     std::string getTypeName() override{
         return TypeToName<T>();
      }
 
@@ -434,6 +434,8 @@ public:
      static void LoadFromConfDir(const std::string& path,bool force = false);
 
      static ConfigBase::ptr LookupBase(const std::string&name);
+
+     static void Visit(std::function<void(ConfigBase::ptr)>cb);
 
 
  private:

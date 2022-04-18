@@ -25,6 +25,7 @@ xzmjx_add_executable(test_timer  test_timer.cpp xzmjx ${LIB})
 xzmjx_add_executable(test_hook  test_hook.cpp xzmjx ${LIB})
 xzmjx_add_executable(test_address  test_address.cpp xzmjx ${LIB})
 xzmjx_add_executable(test_socket  test_socket.cpp xzmjx ${LIB})
+xzmjx_add_executable(test_bytearray  test_bytearray.cpp xzmjx ${LIB})
+xzmjx_add_executable(test_tcpserver  test_tcpserver.cpp xzmjx ${LIB})
 
-
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin/test)

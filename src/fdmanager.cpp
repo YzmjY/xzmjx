@@ -8,6 +8,7 @@
 #include <sys/socket.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <sstream>
 
 
 namespace xzmjx{
@@ -40,7 +41,7 @@ namespace xzmjx{
             m_is_socket = false;
         }else{
             m_is_init = true;
-            m_is_socket = S_ISSOCK(m_fd);
+            m_is_socket = S_ISSOCK(fd_stat.st_mode);
         }
 
         if(m_is_socket){
@@ -70,6 +71,14 @@ namespace xzmjx{
         }else{
             return m_send_timeout;
         }
+    }
+
+    std::string FdCtx::toString(){
+        std::stringstream os;
+        os<<"[fd="<<m_fd<<" ,init="<<m_is_init<<" ,isSock="<<m_is_socket<<" ,isClosed="<<m_is_closed
+        <<" ,sysNonblock="<<m_sys_nonblock<<" ,userNonblock="<<m_user_nonblock<<" ,recvTimeout="<<m_recv_timeout
+        <<" ,sendTimeout="<<m_send_timeout<<"]";
+        return os.str();
     }
 
     FdManager::FdManager(){

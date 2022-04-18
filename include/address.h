@@ -23,19 +23,50 @@ public:
     Address() = default;
     virtual ~Address() = default;
 
+    /**
+     * @brief 创建Address，根据addr的类型创建对应的Address
+     * @param addr
+     * @param addrlen
+     * @return
+     */
     static Address::ptr Create(const sockaddr* addr,socklen_t addrlen);
 
+    /**
+     * @brief 查询host对应的Address
+     * @param result
+     * @param host
+     * @param family
+     * @param type
+     * @param protocol
+     * @return
+     */
     static bool Lookup(std::vector<Address::ptr>& result,
                        const std::string& host,
                        int family = AF_INET,
                        int type = 0,
                        int protocol = 0);
 
+    /**
+     * @brief 查询host对应的任意一个Address
+     * @param host
+     * @param family
+     * @param type
+     * @param protocol
+     * @return
+     */
     static Address::ptr LookupAny(const std::string& host,
                                   int family = AF_INET,
                                   int type = 0,
                                   int protocol = 0);
 
+    /**
+     * @brief 查询host对应的IPAddress
+     * @param host
+     * @param family
+     * @param type
+     * @param protocol
+     * @return
+     */
     static std::shared_ptr<IPAddress> LookupAnyIPAddress(const std::string& host,
                                                          int family = AF_INET,
                                                          int type = 0,

@@ -3,9 +3,10 @@ set(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -rdynamic -g -std=c++20  -Wall -Werror -Wno-
 
 set(LIB_SRC
         address.cpp
+        bytearray.cpp
         log.cpp
         util.cpp
-        #config.cpp
+        config.cpp
         thread.cpp
         mutex.cpp
         fiber.cpp
@@ -14,11 +15,13 @@ set(LIB_SRC
         timer.cpp
         hook.cpp
         fdmanager.cpp
-        socket.cpp)
+        socket.cpp
+        tcp_server.cpp)
 set(LIB_LIB pthread yaml-cpp dl)
 
 add_library(xzmjx STATIC ${LIB_SRC})
 target_link_libraries(xzmjx ${LIB_LIB})
+#redefine_file_macro(xzmjx)
 
 
 
