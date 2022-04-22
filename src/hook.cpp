@@ -251,6 +251,8 @@ int close(int fd){
         auto iom = xzmjx::IOManager::Self();
         if(iom){
             iom->cancelAll(fd);
+            ///@TODO :后续不关注了，应该这样吗
+            iom->delAll(fd);
         }
         xzmjx::FdMgr::GetInstance()->del(fd);
     }

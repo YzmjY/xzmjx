@@ -178,6 +178,48 @@ namespace xzmjx{
         return true;
     }
 
+    bool IOManager::delAll(int fd){
+        MutexType::ReadLock lock(m_mutex);
+        if(fd>=static_cast<int>(m_fd_contexts.size())){
+            return false;
+        }
+        FdContext* fd_ctx = m_fd_contexts[fd];
+        lock.unlock();
+
+        FdContext::MutexType::Lock lock1(fd_ctx->m_mutex);
+        if(!(fd_ctx->events)){
+            return false;
+        }
+
+        int op = EPOLL_CTL_DEL;
+        epoll_event epevent;
+        epevent.events = 0;
+        epevent.data.ptr = fd_ctx;
+
+        int rt = epoll_ctl(m_epoll_fd, op, fd, &epevent);
+        if(rt){
+            XZMJX_LOG_ERROR(g_logger) << "epoll_ctl" << "(" << m_epoll_fd << ","
+                                      << static_cast<EpollCtlOp>(op) << ","
+                                      << fd << static_cast<EPOLL_EVENTS>(epevent.events)
+                                      << "):ret = " << rt << " (" << errno << ") ("
+                                      << strerror(errno) << ") fd_ctx->events="
+                                      << (EPOLL_EVENTS)fd_ctx->events;
+            return false;
+        }
+        if(fd_ctx->events&Event_READ){
+            --m_pending_event_count;
+            FdContext::EventContext& event_ctx = fd_ctx->getContext(Event_READ);
+            fd_ctx->resetContext(event_ctx);///重置对应fd的对应事件上下文
+        }
+        if(fd_ctx->events&Event_WRITE){
+            --m_pending_event_count;
+            FdContext::EventContext& event_ctx = fd_ctx->getContext(Event_WRITE);
+            fd_ctx->resetContext(event_ctx);///重置对应fd的对应事件上下文
+        }
+
+        return true;
+    }
+
     bool IOManager::cancelEvent(int fd,Event event){
         MutexType::ReadLock lock(m_mutex);
         if(fd>=static_cast<int>(m_fd_contexts.size())){
@@ -242,10 +284,11 @@ namespace xzmjx{
         }
         if(fd_ctx->events&Event_READ){
             fd_ctx->triggerContext(Event_READ);
+            --m_pending_event_count;
         }else if(fd_ctx->events&Event_WRITE){
             fd_ctx->triggerContext(Event_WRITE);
+            --m_pending_event_count;
         }
-        --m_pending_event_count;
         return true;
     }
 
@@ -305,7 +348,7 @@ namespace xzmjx{
             }while(true);
             std::vector<std::function<void()>> timer_cbs;
             m_time_manager->listExpiredCb(timer_cbs);
-            XZMJX_LOG_DEBUG(g_logger)<<"Expire Timer Count = "<<timer_cbs.size();
+            //XZMJX_LOG_DEBUG(g_logger)<<"Expire Timer Count = "<<timer_cbs.size();
             submit(timer_cbs.begin(),timer_cbs.end());
 
             for(int i = 0; i<rt;++i){
@@ -314,7 +357,7 @@ namespace xzmjx{
                     ///任务队列有任务待取,消息只起到notify作用，无实际意义
                     char dummy[256];
                     while(read(m_tickle_fds[0], dummy, sizeof dummy) > 0);
-                    XZMJX_LOG_INFO(g_logger)<<"notify receive";
+                    //XZMJX_LOG_INFO(g_logger)<<"notify receive";
                     continue;
                 }
                 FdContext* fd_ctx = static_cast<FdContext*>(event.data.ptr);

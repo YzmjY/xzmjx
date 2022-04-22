@@ -16,7 +16,8 @@ set(LIB_SRC
         hook.cpp
         fdmanager.cpp
         socket.cpp
-        tcp_server.cpp)
+        tcp_server.cpp
+        example/echo_server.cpp)
 set(LIB_LIB pthread yaml-cpp dl)
 
 add_library(xzmjx STATIC ${LIB_SRC})

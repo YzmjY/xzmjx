@@ -189,7 +189,7 @@ namespace xzmjx{
         }
         catch (std::exception& ex){
             cur->m_state = Fiber::FIBER_EXCEPT;
-            XZMJX_LOG_ERROR(g_logger)<<"Fiber Exception"<<ex.what();
+            XZMJX_LOG_ERROR(g_logger)<<"Fiber Exception "<<ex.what();
         }
         catch (...){
             cur->m_state = Fiber::FIBER_EXCEPT;

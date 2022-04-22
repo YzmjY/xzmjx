@@ -12,7 +12,7 @@
 
 namespace xzmjx{
 class TimerManager;
-class Timer:std::enable_shared_from_this<Timer>{
+class Timer: public std::enable_shared_from_this<Timer>{
     friend class TimerManager;
 public:
     typedef std::shared_ptr<Timer> ptr;
