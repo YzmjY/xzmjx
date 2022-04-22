@@ -137,7 +137,7 @@ namespace xzmjx{
     uint64_t TimerManager::getNextTimerInterval(){
         RWMutexType::ReadLock lock(m_mutex);
         if(m_timers.empty()){
-            XZMJX_LOG_INFO(g_logger)<<"No Timer Left";
+            //XZMJX_LOG_INFO(g_logger)<<"No Timer Left";
             return ~0ull;
         }
         Timer::ptr next = *m_timers.begin();

@@ -47,6 +47,7 @@ public:
 
     int addEvent(int fd,Event event,std::function<void()> cb = nullptr);
     bool delEvent(int fd,Event event);
+    bool delAll(int fd);
     bool cancelEvent(int fd,Event event);
     bool cancelAll(int fd);
 

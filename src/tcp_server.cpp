@@ -63,7 +63,7 @@ bool TcpServer::bind(const std::vector<Address::ptr>& addrs,
         return false;
     }
     for(auto& i:m_listen_socks){
-        XZMJX_LOG_ERROR(g_logger)<<"type="<<m_type
+        XZMJX_LOG_INFO(g_logger)<<"type="<<m_type
             <<" name="<<m_name
             <<" server bind success: "<<i->toString();
     }
@@ -75,7 +75,7 @@ bool TcpServer::start(){
         return true;///正在运行
     }
     m_is_stop = false;
-    for(auto sock: m_listen_socks){
+    for(auto& sock: m_listen_socks){
         ///!!!std::bind()支持绑定虚函数，即使写作TcpServer::startAccept,也会触发虚函数的override机制
         m_accept_worker->submit(std::bind(&TcpServer::startAccept,shared_from_this(),sock));
     }
@@ -92,6 +92,20 @@ void TcpServer::stop(){
         }
         m_listen_socks.clear();
     });
+}
+std::string TcpServer::toString(const std::string& prefix){
+    std::stringstream ss;
+    ss<<prefix<<"[type="<<m_type<<" name="<<m_name<<" worker="
+    <<m_worker->getName()<<" io_worker="<<m_io_worker->getName()
+    <<" accept_worker="<<m_accept_worker->getName()
+    <<" recv_timeout="<<m_recv_timeout
+    <<std::endl;
+
+    std::string str = prefix.empty()?"    ":prefix;
+    for(auto& sock:m_listen_socks){
+        ss<<str<<sock->toString()<<std::endl;
+    }
+    return ss.str();
 }
 
 void TcpServer::handleClient(Socket::ptr client){

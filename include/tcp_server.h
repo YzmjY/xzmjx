@@ -20,7 +20,7 @@ public:
      * @param io_worker
      * @param accept_worker
      */
-    TcpServer(IOManager* worker = IOManager::Self(),
+    explicit TcpServer(IOManager* worker = IOManager::Self(),
               IOManager* io_worker = IOManager::Self(),
               IOManager* accept_worker = IOManager::Self());
     virtual ~TcpServer();
@@ -73,6 +73,8 @@ public:
     bool isStop() const{ return m_is_stop;}
 
     std::vector<Socket::ptr> getSocks() const{ return m_listen_socks;}
+
+    std::string toString(const std::string& prefix);
 protected:
     /**
      * @brief 处理客户连接

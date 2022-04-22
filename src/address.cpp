@@ -77,18 +77,7 @@ bool Address::Lookup(std::vector<Address::ptr> &result,
     if(node.empty()) {
         node = host;
     }
-
-    if(xzmjx::FdMgr::GetInstance()->get(6)){
-        XZMJX_LOG_INFO(g_logger)<<xzmjx::FdMgr::GetInstance()->get(6)->toString();
-    }else{
-        XZMJX_LOG_INFO(g_logger)<<"fd = 6 not init";
-    }
     int error = getaddrinfo(node.c_str(),service,&hint,&results);
-    if(xzmjx::FdMgr::GetInstance()->get(6)){
-        XZMJX_LOG_INFO(g_logger)<<xzmjx::FdMgr::GetInstance()->get(6)->toString();
-    }else{
-        XZMJX_LOG_INFO(g_logger)<<"fd = 6 not init";
-    }
     if(error){
         XZMJX_LOG_ERROR(g_logger)<<"Address::Lookup getaddress("<<host<<","
                                  <<family<<", "<<type<<") err = "<<error<<" errstr = "
