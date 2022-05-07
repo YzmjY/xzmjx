@@ -1,0 +1,1 @@
+/usr/bin/c++  -rdynamic -g -std=c++14  -Wall -Werror -Wno-deprecated -Wno-unused-function  CMakeFiles/test_fiber.dir/test_fiber.cpp.o -o ../../bin/test/test_fiber   -L/mnt/d/WorkSpace/xzmjx/lib  -Wl,-rpath,/mnt/d/WorkSpace/xzmjx/lib ../../lib/libxzmjx.a -lpthread -lyaml-cpp -ldl 

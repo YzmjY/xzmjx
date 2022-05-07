@@ -1,0 +1,892 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="xzmjx"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\cmake\;CMake Files\src\;CMake Files\tests\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="xzmjx">
+				<Option output="/mnt/d/WorkSpace/xzmjx/lib/libxzmjx.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/cmake-build-debug/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 xzmjx"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="xzmjx/fast">
+				<Option output="/mnt/d/WorkSpace/xzmjx/lib/libxzmjx.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/cmake-build-debug/src"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 xzmjx/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_log">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_log" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_log"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_log/fast">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_log" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_log/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_thread">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_thread" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_thread"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_thread/fast">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_thread" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_thread/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_sharedptr">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_sharedptr" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_sharedptr"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_sharedptr/fast">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_sharedptr" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_sharedptr/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_context">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_context" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_context"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_context/fast">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_context" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_context/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_fiber">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_fiber" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_fiber"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_fiber/fast">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_fiber" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_fiber/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_cond">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_cond" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_cond"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_cond/fast">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_cond" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_cond/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_scheduler">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_scheduler" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_scheduler"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_scheduler/fast">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_scheduler" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_scheduler/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_iomanager">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_iomanager" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_iomanager"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_iomanager/fast">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_iomanager" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_iomanager/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_timer">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_timer" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_timer"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_timer/fast">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_timer" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_timer/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_hook">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_hook" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_hook"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_hook/fast">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_hook" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_hook/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_address">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_address" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_address"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_address/fast">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_address" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_address/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_socket">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_socket" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_socket"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_socket/fast">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_socket" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_socket/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_bytearray">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_bytearray" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_bytearray"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_bytearray/fast">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_bytearray" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_bytearray/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_tcpserver">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_tcpserver" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_tcpserver"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_tcpserver/fast">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_tcpserver" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_tcpserver/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_echo">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_echo" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_echo"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="test_echo/fast">
+				<Option output="/mnt/d/WorkSpace/xzmjx/bin/test/test_echo" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/mnt/d/WorkSpace/xzmjx/bin/test"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/mnt/d/WorkSpace/xzmjx/include"/>
+					<Add directory="/usr/include/c++/11"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/11"/>
+					<Add directory="/usr/include/c++/11/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/11/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 test_echo/fast"/>
+					<CompileFile command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j16 -f &quot;/mnt/d/WorkSpace/xzmjx/cmake-build-debug/tests/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/src/address.cpp">
+			<Option target="xzmjx"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/src/bytearray.cpp">
+			<Option target="xzmjx"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/src/config.cpp">
+			<Option target="xzmjx"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/src/example/echo_server.cpp">
+			<Option target="xzmjx"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/src/fdmanager.cpp">
+			<Option target="xzmjx"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/src/fiber.cpp">
+			<Option target="xzmjx"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/src/hook.cpp">
+			<Option target="xzmjx"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/src/http/http.cpp">
+			<Option target="xzmjx"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/src/http/http_parser.cpp">
+			<Option target="xzmjx"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/src/http/http_parser/http_parser.c">
+			<Option target="xzmjx"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/src/iomanager.cpp">
+			<Option target="xzmjx"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/src/log.cpp">
+			<Option target="xzmjx"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/src/mutex.cpp">
+			<Option target="xzmjx"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/src/scheduler.cpp">
+			<Option target="xzmjx"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/src/socket.cpp">
+			<Option target="xzmjx"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/src/tcp_server.cpp">
+			<Option target="xzmjx"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/src/thread.cpp">
+			<Option target="xzmjx"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/src/timer.cpp">
+			<Option target="xzmjx"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/src/util.cpp">
+			<Option target="xzmjx"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/tests/test_address.cpp">
+			<Option target="test_address"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/tests/test_bytearray.cpp">
+			<Option target="test_bytearray"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/tests/test_cond.cpp">
+			<Option target="test_cond"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/tests/test_context.cpp">
+			<Option target="test_context"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/tests/test_echo.cpp">
+			<Option target="test_echo"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/tests/test_fiber.cpp">
+			<Option target="test_fiber"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/tests/test_hook.cpp">
+			<Option target="test_hook"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/tests/test_iomanager.cpp">
+			<Option target="test_iomanager"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/tests/test_log.cpp">
+			<Option target="test_log"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/tests/test_scheduler.cpp">
+			<Option target="test_scheduler"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/tests/test_sharedptr.cpp">
+			<Option target="test_sharedptr"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/tests/test_socket.cpp">
+			<Option target="test_socket"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/tests/test_tcpserver.cpp">
+			<Option target="test_tcpserver"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/tests/test_thread.cpp">
+			<Option target="test_thread"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/tests/test_timer.cpp">
+			<Option target="test_timer"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/cmake/utils.cmake">
+			<Option virtualFolder="CMake Files\cmake\"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/src/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\src\"/>
+		</Unit>
+		<Unit filename="/mnt/d/WorkSpace/xzmjx/tests/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\tests\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
