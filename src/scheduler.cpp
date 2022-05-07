@@ -88,6 +88,10 @@ namespace xzmjx{
                         continue;
                     }
                     XZMJX_ASSERT(iter->fiber||iter->taskCb);
+                    /// 这里由于fiber的yield和加入调度队列这两不操作不是原子的，在一个fiber让出执行权时会做以下事情：
+                    /// 1,加入调度队列
+                    /// 2,yield让出执行权
+                    /// 在1,2之间可能该fiber被执行到，这就导致fiber处于FIBER_RUNNING，这是不合理的
                     if(iter->fiber && iter->fiber->getState() == Fiber::FiberState::FIBER_RUNNING){
                         ++iter;
                         notify_me = true;
