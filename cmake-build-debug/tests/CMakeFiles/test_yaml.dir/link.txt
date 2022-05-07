@@ -1,1 +1,0 @@
-/usr/bin/c++  -rdynamic -g -std=c++14  -Wall -Werror -Wno-deprecated -Wno-unused-function  -g CMakeFiles/test_yaml.dir/test_yaml.cpp.o -o ../../bin/test_yaml   -L/mnt/e/WorkSpace/xzmjx/lib  -Wl,-rpath,/mnt/e/WorkSpace/xzmjx/lib ../../lib/libxzmjx.a -lpthread -lyaml-cpp 

@@ -1,1 +1,0 @@
-/usr/bin/c++  -rdynamic -g -std=c++14  -Wall -Werror -Wno-deprecated -Wno-unused-function  CMakeFiles/test_socket.dir/test_socket.cpp.o -o ../../bin/test/test_socket   -L/mnt/d/WorkSpace/xzmjx/lib  -Wl,-rpath,/mnt/d/WorkSpace/xzmjx/lib ../../lib/libxzmjx.a -lpthread -lyaml-cpp -ldl 
