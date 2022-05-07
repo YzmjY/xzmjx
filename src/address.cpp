@@ -306,6 +306,7 @@ IPv6Address::IPv6Address(const uint8_t address[16], uint16_t port) {
     m_address.sin6_port = EndianCastOnLittle(port);
     m_address.sin6_family = AF_INET6;
     ///@TODO： 这里已经是网络字节序了？怎么与IPv4的不一致
+    /// ipv6地址是一组字节序列，没有大小端的概念
     memcpy(&m_address.sin6_addr.s6_addr,address,16);
 }
 
