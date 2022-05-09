@@ -14,13 +14,16 @@ public:
     typedef std::shared_ptr<HttpRequestParser> ptr;
     HttpRequestParser();
     size_t execute(char* data,size_t len);
-    bool isFinish();
-    bool hasError();
-    HttpRequest::ptr getData() const {return m_data; }
+    bool isFinish() { return m_finished; }
+    void setFinish(bool v) { m_finished = v; }
+    bool hasError() { return !!m_error; }
     void setError(int v) { m_error = v; }
+    HttpRequest::ptr getData() const {return m_data; }
     uint64_t getContentLength();
 
     const http_parser& getParser() const { return m_parser; }
+    void setField(const std::string& s) { m_field = s; }
+    const std::string& getField() const { return  m_field; }
 
 public:
     static uint64_t GetHttpRequestBufferSize();
@@ -40,13 +43,16 @@ public:
     typedef std::shared_ptr<HttpResponseParser> ptr;
     HttpResponseParser();
     size_t execute(char* data,size_t len);
-    bool isFinish();
-    bool hasError();
-    HttpResponse::ptr getData() const {return m_data; }
+    bool isFinish() { return m_finished; }
+    void setFinish(bool v) { m_finished = v; }
+    bool hasError() { return !!m_error; }
+    HttpResponse::ptr getData() const { return m_data; }
     void setError(int v) { m_error = v; }
     uint64_t getContentLength();
 
     const http_parser& getParser() const { return m_parser; }
+    void setField(const std::string& s) { m_field = s; }
+    const std::string& getField() const { return  m_field; }
 
 public:
     static uint64_t GetHttpResponseBufferSize();
@@ -59,6 +65,6 @@ private:
     bool m_finished;
     std::string m_field;
 };
-}
-}
+} // namespace http
+} // namespace xzmjx
 #endif //XZMJX_HTTP_PARSER_H

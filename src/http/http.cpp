@@ -59,6 +59,9 @@ const std::string HttpStatusToString(const HttpStatus& s){
             return "<unknown>";
     }
 }
+bool CaseInsensitiveLess::operator()(const std::string &lhs, const std::string &rhs) const {
+    return strcasecmp(lhs.c_str(), rhs.c_str()) < 0;
+}
 
 HttpRequest::HttpRequest(uint8_t version, bool close)
     :m_method(HttpMethod::GET)

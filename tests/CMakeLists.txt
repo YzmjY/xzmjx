@@ -28,5 +28,6 @@ xzmjx_add_executable(test_socket  test_socket.cpp xzmjx ${LIB})
 xzmjx_add_executable(test_bytearray  test_bytearray.cpp xzmjx ${LIB})
 xzmjx_add_executable(test_tcpserver  test_tcpserver.cpp xzmjx ${LIB})
 xzmjx_add_executable(test_echo  test_echo.cpp xzmjx ${LIB})
+xzmjx_add_executable(test_http_parser  test_http_parser.cpp xzmjx ${LIB})
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin/test)

@@ -211,6 +211,8 @@ public:
 
     void setBody(const std::string& v) { m_body = v;}
 
+    void appendBody(const std::string& v){ m_body.append(v); }
+
     bool isClose() const { return m_close;}
 
     void setClose(bool v) { m_close = v;}
@@ -312,7 +314,7 @@ public:
     typedef std::map<std::string,std::string,CaseInsensitiveLess> MapType;
 
 public:
-    HttpResponse(uint8_t version,bool close);
+    HttpResponse(uint8_t version = 0x11,bool close = false);
     HttpStatus getStatus() const{ return m_status; }
     uint8_t getVersion() const { return m_version; }
     bool isClose() const { return m_close; }
@@ -324,6 +326,7 @@ public:
     void setVersion(uint8_t v) { m_version = v; }
     void setClose(bool v) { m_close = v; }
     void setBody(const std::string& v) { m_body = v; }
+    void appendBody(const std::string& v) { m_body.append(v); }
     void setHeaders(const MapType& v) { m_header = v; }
     void setReason(const std::string& v) { m_reason = v; }
 
