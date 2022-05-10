@@ -20,6 +20,7 @@ set(LIB_SRC
         http/http.cpp
         http/http_parser/http_parser.c
         http/http_parser.cpp
+        http/http_session.cpp
         example/echo_server.cpp)
 set(LIB_LIB pthread yaml-cpp dl)
 
