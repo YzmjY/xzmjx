@@ -16,11 +16,14 @@ set(LIB_SRC
         hook.cpp
         fdmanager.cpp
         socket.cpp
+        stream.cpp
+        socketstream.cpp
         tcp_server.cpp
         http/http.cpp
         http/http_parser/http_parser.c
         http/http_parser.cpp
         http/http_session.cpp
+        http/http_server.cpp
         example/echo_server.cpp)
 set(LIB_LIB pthread yaml-cpp dl)
 
