@@ -15,7 +15,8 @@ HttpServer::HttpServer(bool keep_alive
                        ,IOManager* accept_worker)
     :TcpServer(worker,io_worker,accept_worker)
     ,m_keep_alive(keep_alive){
-
+    m_dispatch.reset(new ServletDispatch);
+    m_type = "http";
 }
 void HttpServer::handleClient(Socket::ptr client){
     XZMJX_LOG_INFO(g_logger)<<"handleClient:"<<client->toString();
@@ -29,17 +30,11 @@ void HttpServer::handleClient(Socket::ptr client){
             break;
         }
         HttpResponse::ptr rsp = req->createResponse();
-
-
-        rsp->setStatus(xzmjx::http::HttpStatus::NOT_FOUND);
-        rsp->setHeader("Server", "sylar/1.0.0");
-        rsp->setHeader("Content-Type", "text/html");
-        rsp->setBody("<html><head><title>404 Not Found"
-                     "</title></head><body><center><h1>404 Not Found</h1></center>"
-                     "<hr><center>XZMJX</center></body></html>");
-        rsp->appendBody("Hello XZMJX");
+        rsp->setHeader("Server",getName());
+        m_dispatch->handle(req,rsp,session);
         session->sendResponse(rsp);
         if(!m_keep_alive||req->isClose()){
+            rsp->setClose(true);
             break;
         }
     }while(true);

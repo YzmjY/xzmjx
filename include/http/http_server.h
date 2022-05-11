@@ -5,6 +5,7 @@
 #ifndef XZMJX_HTTP_SERVER_H
 #define XZMJX_HTTP_SERVER_H
 #include "tcp_server.h"
+#include "http/servlet.h"
 
 namespace xzmjx{
 namespace http{
@@ -22,6 +23,7 @@ protected:
 
 private:
     bool m_keep_alive;
+    ServletDispatch::ptr m_dispatch;
 };
 }
 }

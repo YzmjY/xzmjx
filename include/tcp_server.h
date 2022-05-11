@@ -87,7 +87,7 @@ protected:
      * @param sock
      */
     virtual void startAccept(Socket::ptr sock);
-private:
+protected:
     std::vector<Socket::ptr> m_listen_socks; ///监听的套接字数组
     IOManager* m_worker;                    ///
     IOManager* m_io_worker;                 ///处理新连接的调度器
