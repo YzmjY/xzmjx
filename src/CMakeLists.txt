@@ -32,7 +32,7 @@ set(LIB_SRC
         example/echo_server.cpp)
 set(LIB_LIB pthread yaml-cpp dl)
 
-add_library(xzmjx STATIC ${LIB_SRC})
+add_library(xzmjx SHARED ${LIB_SRC})
 target_link_libraries(xzmjx ${LIB_LIB})
 
 set(LIBRARY_OUTPUT_PATH  ${PROJECT_SOURCE_DIR}/lib)
