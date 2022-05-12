@@ -20,6 +20,17 @@ public:
     static std::string Dirname(const std::string& filename);
     static bool OpenFileForRead(std::ifstream& stream,const char* filename,std::ios_base::openmode mode);
     static bool OpenFileForWrite(std::ofstream& stream,const char* filename,std::ios_base::openmode mode);
+    static void ListAllFile(std::vector<std::string>& files
+            ,const std::string& path
+            ,const std::string& subfix);
+    static bool Mkdir(const std::string& dirname);
+    static bool IsRunningPidfile(const std::string& pidfile);
+    static bool Rm(const std::string& path);
+    static bool Mv(const std::string& from, const std::string& to);
+    static bool Realpath(const std::string& path, std::string& rpath);
+    static bool Symlink(const std::string& frm, const std::string& to);
+    static bool Unlink(const std::string& filename, bool exist = false);
+    static std::string Basename(const std::string& filename);
 };
 
 uint64_t GetThreadID();

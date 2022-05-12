@@ -2,6 +2,7 @@
 #include "log.h"
 #include "config.h"
 #include "library.h"
+#include "env.h"
 static xzmjx::Logger::ptr g_logger = XZMJX_LOG_NAME("system");
 static xzmjx::ConfigVar<std::string>::ptr g_module_path
         = xzmjx::Config::Lookup("module.path",std::string("module"),"module path");
@@ -79,26 +80,47 @@ void ModuleManager::delAll(){
     }
 }
 void ModuleManager::init(){
+    std::vector<std::string> files;
+    std::string path = EnvMgr::GetInstance()->getAbsolutePath(g_module_path->getValue());
+    FSUtil::ListAllFile(files,path,".so");
 
+    std::sort(files.begin(),files.end());
+    for(auto&& it:files){
+        initModule(it);
+    }
 }
 Module::ptr ModuleManager::get(const std::string& name){
-
+    RWMutexType::WriteLock lock(m_rwlock);
+    auto it = m_modules.find(name);
+    if(it == m_modules.end()){
+        return nullptr;
+    }
+    Module::ptr module = it->second;
+    return module;
 }
 void ModuleManager::onConnect(Stream::ptr stream){
-
+    std::vector<Module::ptr> v;
+    listAll(v);
+    for(auto&& it:v){
+        it->onConnect(stream);
+    }
 }
 void ModuleManager::onDisConnect(Stream::ptr stream){
-
+    std::vector<Module::ptr> v;
+    listAll(v);
+    for(auto&& it:v){
+        it->onConnect(stream);
+    }
 }
 void ModuleManager::listAll(std::vector<Module::ptr>& m){
-
+    m.clear();
+    RWMutexType::ReadLock lock(m_rwlock);
+    m.reserve(m_modules.size());
+    for(auto&&it:m_modules){
+        m.push_back(it.second);
+    }
 }
-void ModuleManager::listByType(uint32_t type,std::vector<Module::ptr>& m){
 
-}
-void ModuleManager::foreach(uint32_t type,std::function<void(Module::ptr)> cb){
-
-}
 void ModuleManager::initModule(const std::string& path){
     Module::ptr m = Library::GetModule(path);
     if(m){

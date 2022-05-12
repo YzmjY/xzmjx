@@ -52,22 +52,15 @@ public:
     void del(const std::string& m);
     void delAll();
     void init();
-
     Module::ptr get(const std::string& name);
-
     void onConnect(Stream::ptr stream);
     void onDisConnect(Stream::ptr stream);
-
     void listAll(std::vector<Module::ptr>& m);
-    void listByType(uint32_t type,std::vector<Module::ptr>& m);
-    void foreach(uint32_t type,std::function<void(Module::ptr)> cb);
-
 private:
     void initModule(const std::string& path);
 private:
     RWMutexType m_rwlock;
     std::unordered_map<std::string,Module::ptr> m_modules;
-    std::unordered_map<uint32_t,std::unordered_map<std::string,Module::ptr>> m_type2Modules;
 };
 typedef xzmjx::SingletonPtr<ModuleManager> ModuleMgr;
 }
