@@ -2,6 +2,7 @@
 // Created by 20132 on 2022/3/11.
 //
 #include "config.h"
+#include <iostream>
 
 
 namespace xzmjx{
@@ -30,6 +31,7 @@ void Config::LoadFromYaml(const YAML::Node& rootNode){
     ListAllNodes("",rootNode,all_node);
     for(auto it : all_node){
         std::string key = it.first;
+        std::cout<<key<<std::endl;
         if(key.empty()){
             continue;
         }

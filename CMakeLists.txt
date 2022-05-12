@@ -5,5 +5,8 @@ set(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -rdynamic -g  -std=c++20  -Wall -Werror -Wno
 set(CMAKE_CXX_STANDARD 20)
 
 include(cmake/utils.cmake)
+
 add_subdirectory(src)
 add_subdirectory(tests)
+
+

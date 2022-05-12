@@ -290,6 +290,7 @@ public:
     LoggerManager();
 
     Logger::ptr getLogger(const std::string& name);
+    void delLogger(const std::string& name);
 
     void init();
 
