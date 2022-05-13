@@ -2,6 +2,8 @@
 // Created by 20132 on 2022/3/11.
 //
 #include "config.h"
+#include "env.h"
+#include "util.h"
 #include <iostream>
 
 
@@ -49,7 +51,20 @@ void Config::LoadFromYaml(const YAML::Node& rootNode){
 }
 void Config::LoadFromConfDir(const std::string& path,bool force){
     ///@TODO:
-    return;
+    std::vector<std::string> files;
+    std::string abs_path = EnvMgr::GetInstance()->getAbsolutePath(path);
+    FSUtil::ListAllFile(files,abs_path,".yml");
+    for(auto&& file:files){
+        try{
+            YAML::Node n = YAML::LoadFile(file);
+            LoadFromYaml(n);
+            XZMJX_LOG_INFO(g_logger) << "LoadConfFile file="
+                                     << file << " ok";
+        }catch(...) {
+            XZMJX_LOG_ERROR(g_logger)<<"LoadConfFile file="
+                                     <<file<<" fali";
+        }
+    }
 }
 
 ConfigBase::ptr Config::LookupBase(const std::string&name){
