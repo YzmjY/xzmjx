@@ -21,18 +21,5 @@ public:
 };
 }
 
-extern "C" {
-xzmjx::Module *CreateModule() {
-    xzmjx::Module *module = new chat::ChatModule();
-    XZMJX_LOG_INFO(g_logger)<<"CreateModule"<<module->statusString();
-    return module;
-}
-
-
-void DestoryModule(xzmjx::Module* v){
-    XZMJX_LOG_INFO(g_logger)<<"DestoryModule"<<v->statusString();
-    delete v;
-}
-}
 
 #endif
