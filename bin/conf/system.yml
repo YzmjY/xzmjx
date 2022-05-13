@@ -1,0 +1,3 @@
+server:
+    work_path: /home/xzmjx/work/xzmjx
+    pid_file: xzmjx.pid
