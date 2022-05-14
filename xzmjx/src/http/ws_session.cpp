@@ -59,7 +59,8 @@ HttpRequest::ptr WSSession::handleShake(){
             break;
         }
         std::string v = key+"258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
-        v = base64decode(sha1sum(v.c_str(),v.size()));
+        std::string tmp = sha1sum(v.c_str(),v.size());
+        v = base64encode(tmp.c_str(),tmp.size());
         req->setWebsocket(true);
 
         auto rsp = req->createResponse();

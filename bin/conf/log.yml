@@ -1,12 +1,12 @@
 logs:
     - name: root
-      level: info
+      level: debug
       appenders:
           - type: FileLogAppender
             file: /home/xzmjx/work/log/root.log
           - type: StdoutLogAppender
     - name: system
-      level: info
+      level: debug
       appenders:
           - type: FileLogAppender
             file: /home/xzmjx/work/log/system.log

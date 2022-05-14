@@ -27,6 +27,7 @@ public:
     static ChatMessage::ptr Create(const std::string& msg);
     std::string get(const std::string& id) const;
     void set(const std::string& id,const std::string& val);
+    std::string toString() const;
 private:
     std::map<std::string,std::string> m_data;
 };

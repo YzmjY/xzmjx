@@ -7,7 +7,7 @@ namespace xzmjx{
 namespace http{
 class WSServer:public TcpServer{
 public:
-    std::shared_ptr<WSServer> ptr;
+    typedef std::shared_ptr<WSServer> ptr;
 
     WSServer(IOManager* worker = IOManager::Self()
             ,IOManager* io_worker = IOManager::Self()

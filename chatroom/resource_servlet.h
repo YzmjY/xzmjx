@@ -4,7 +4,7 @@
 namespace chat {
 class ResourceServlet : public xzmjx::http::Servlet {
 public:
-    std::shared_ptr<ResourceServlet> ptr;
+    typedef std::shared_ptr<ResourceServlet> ptr;
 
     ResourceServlet(const std::string &path);
 

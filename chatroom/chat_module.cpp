@@ -1,4 +1,10 @@
 #include "chat_module.h"
+#include "tcp_server.h"
+#include "application.h"
+#include "resource_servlet.h"
+#include "env.h"
+#include "http/ws_server.h"
+#include "chat_servlet.h"
 
 namespace chat{
 ChatModule::ChatModule()
@@ -18,6 +24,31 @@ bool ChatModule::onUnload(){
 
 bool ChatModule::onServerReady(){
     XZMJX_LOG_INFO(g_logger)<<"onServerReady";
+    std::vector<xzmjx::TcpServer::ptr> srvs;
+    if(!xzmjx::Application::GetInstance()->getServer("http",srvs)){
+        XZMJX_LOG_INFO(g_logger)<<"no http server running";
+        return false;
+    }
+    for(auto&& i:srvs){
+        xzmjx::http::HttpServer::ptr http_server =
+                std::dynamic_pointer_cast<xzmjx::http::HttpServer>(i);
+        auto dispatch = http_server->getDispatch();
+        chat::ResourceServlet::ptr slt(new chat::ResourceServlet(
+                xzmjx::EnvMgr::GetInstance()->getCwd()));
+        dispatch->addGlobServlet("/html/*",slt);
+    }
+    srvs.clear();
+    if(!xzmjx::Application::GetInstance()->getServer("ws",srvs)){
+        XZMJX_LOG_INFO(g_logger)<<"no http server running";
+        return false;
+    }
+    for(auto&& i:srvs){
+        xzmjx::http::WSServer::ptr ws_server =
+                std::dynamic_pointer_cast<xzmjx::http::WSServer>(i);
+        xzmjx::http::ServletDispatch::ptr dispatch = ws_server->getWSServletDispatch();
+        chat::ChatServlet::ptr slt(new chat::ChatServlet());
+        dispatch->addGlobServlet("/xzmjx/chat",slt);
+    }
     return true;
 }
 

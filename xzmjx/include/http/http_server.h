@@ -16,7 +16,7 @@ public:
             IOManager* worker = IOManager::Self(),
             IOManager* io_worker = IOManager::Self(),
             IOManager* accept_worker = IOManager::Self());
-
+    ServletDispatch::ptr getDispatch() const { return m_dispatch; }
 protected:
     virtual void handleClient(Socket::ptr client) override;
 

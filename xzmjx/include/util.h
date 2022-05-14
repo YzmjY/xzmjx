@@ -65,7 +65,7 @@ void Backtrace(std::vector<std::string>& symbols,int size,int skip = 1);
 std::string BacktraceToString(int size = 64, int skip = 2, const std::string& prefix = "");
 
 uint64_t GetCurMS();
-std::string Time2Str(time_t ts, const std::string& format) ;
+std::string Time2Str(time_t ts = time(0), const std::string& format = "%Y-%m-%d %H:%M:%S") ;
 
 template<typename T>
 const char* TypeToName(){

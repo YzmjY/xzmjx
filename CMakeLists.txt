@@ -19,9 +19,9 @@ endif()
 
 set(LIB_SRC
         chatroom/chat_module.cpp
-#        chatroom/protocol.cpp
+        chatroom/chat_protocol.cpp
         chatroom/resource_servlet.cpp
-#        chatroom/chat_servlet.cpp
+        chatroom/chat_servlet.cpp
         )
 
 add_library(chat_room SHARED ${LIB_SRC})
