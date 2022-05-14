@@ -31,7 +31,7 @@ void ChatMessage::set(const std::string& id,const std::string& val){
 
 std::string ChatMessage::toString() const{
     rapidjson::StringBuffer buf;
-    rapidjson::Writer<rapidjson::StringBuffer> writer;
+    rapidjson::Writer<rapidjson::StringBuffer> writer(buf);
     writer.StartObject();
     for(auto&& it:m_data){
         writer.Key(it.first.c_str());

@@ -300,7 +300,7 @@ std::ostream& HttpResponse::dump(std::ostream& os) const {
        << (m_reason.empty() ? HttpStatusToString(m_status) : m_reason)
        << "\r\n";
     for(auto& i : m_header) {
-        if(strcasecmp(i.first.c_str(), "connection") == 0) {
+        if(!m_websocket&&strcasecmp(i.first.c_str(), "connection") == 0) {
             continue;
         }
         os << i.first << ": " << i.second << "\r\n";

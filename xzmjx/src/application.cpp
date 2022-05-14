@@ -120,7 +120,9 @@ int Application::main(int argc,char** argv){
     }
     m_mainIOManager.reset(new IOManager(4,"main"));
     m_mainIOManager->submit(std::bind(&Application::run_fiber,this));
-    m_mainIOManager->addTimerEvent(2000,[](){ XZMJX_LOG_INFO(g_logger)<<"heart beats";},true);
+    m_mainIOManager->addTimerEvent(2000,[](){ 
+        //XZMJX_LOG_INFO(g_logger)<<"heart beats";
+        },true);
     m_mainIOManager->stop();
     return 0;
 }

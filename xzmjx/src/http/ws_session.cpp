@@ -67,11 +67,19 @@ HttpRequest::ptr WSSession::handleShake(){
         rsp->setStatus(HttpStatus::SWITCHING_PROTOCOLS);
         rsp->setWebsocket(true);
         rsp->setReason("Web Socket Protocol Handshake");
-        rsp->setHeader("Upgrade","websocket");
+        rsp->setHeader("Upgrade", "websocket");
         rsp->setHeader("Connection", "Upgrade");
         rsp->setHeader("Sec-WebSocket-Accept", v);
-
+        // auto rsp = req->createResponse();
+        // rsp->setStatus(xzmjx::http::HttpStatus::NOT_FOUND);
+        // rsp->setHeader("Server","xzmjx/1.0.0");
+        // rsp->setHeader("Content-Type","text/html");
+        // rsp->setBody("<html><head><title>404 Not Found"
+        //     "</title></head><body><center><h1>404 Not Found</h1></center>"
+        //     "<hr><center>xzmjx-websocket</center></body></html>");
         sendResponse(rsp);
+        XZMJX_LOG_DEBUG(g_logger)<<*req;
+        XZMJX_LOG_DEBUG(g_logger)<<*rsp;
         return req;
     }while(0);
     if(req){

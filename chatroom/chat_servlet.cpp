@@ -8,8 +8,6 @@ ChatServlet::ChatServlet()
 
 }
 
-
-
 int32_t ChatServlet::onConnect(xzmjx::http::HttpRequest::ptr header
 ,xzmjx::http::WSSession::ptr session) {
     XZMJX_LOG_INFO(g_logger)<<"onConnect "<<session;
@@ -101,7 +99,7 @@ int32_t ChatServlet::handle(xzmjx::http::HttpRequest::ptr header
         nty->set("time",xzmjx::Time2Str());
         nty->set("name",id);
         nty->set("msg",m);
-        ChatSessionMgr::GetInstance()->notifyOthers(nty,session);
+        ChatSessionMgr::GetInstance()->notifyAll(nty);
 
         return ChatSessionMgr::GetInstance()->sendMsg(session,rsp_msg);
     }
