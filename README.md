@@ -1,7 +1,58 @@
 # sylar协程网络库的学习
 ## 日志模块
+日志模块主要有四个类：Logger,LogEvent,LogFormatter,LogAppender,另外有两个辅助作用的类，分别是LogEventWrap和LoggerManager,各个类的职责如下：  
+- LogEvent:保存当前Log的现场信息，譬如文件名,行号,函数名...
+- LogEventWrap:RAII管理LogEvent,析构时将LogEnvent落地当log中
+- Logger:日志器,用户真正使用的类，负责将LogEvent落地到输出地
+- LogFormatter:日志格式,将LogEvent格式化为指定格式
+- LogAppender:日志落地类,决定日志的输出地,可以是文件，可以使stdout  
 
+日志构造的整体流程:  
+```
+ +---------+
+ |LogEvent |     ----->构造现场信息
+ +---------+
+      |
+      v
++-------------+
+|LogEventWrap |  ----->析构时自动调用Log方法
++-------------+
+      |
+      V
+   +-------+
+   |Logger |     ----->将LogEvent交给具体日志器
+   +-------+
+      |
+      V
++-------------+
+|LogAppender |   ----->一个Logger可能有多个输出地
++-------------+
+      |
+      V
++-------------+
+|LogFormatter |  ----->将LogEvent格式化
++-------------+
+      |
+      V
+输出到具体输出地
+```
+为简化使用，借助宏实现了流式输出和格式化输出两种方法：  
+```
+// 流式输出
+#define XZMJX_LOG_LEVEL(logger,level) \
+if(logger->getLevel()<=level)         \
+xzmjx::LogEventWrap(xzmjx::LogEvent::ptr(new xzmjx::LogEvent(logger,level,__FILE__,__LINE__, \
+                                        0,xzmjx::GetThreadID(),xzmjx::GetFiberID(),          \
+                                        static_cast<uint64_t>(time(NULL)),xzmjx::Thread::GetName()))).getSS()
 
+// 格式化输出
+#define XZMJX_LOG_FMT_LEVEL(logger,level,fmt,...) \
+if(logger->getLevel()<=level)         \
+xzmjx::LogEventWrap(xzmjx::LogEvent::ptr(new xzmjx::LogEvent(logger,level,__FILE__,__LINE__, \
+                                        0,xzmjx::GetThreadID(),xzmjx::GetFiberID(),          \
+                                        static_cast<uint64_t>(time(NULL)),xzmjx::Thread::GetName()))).getEvent()->format(fmt,__VA_ARGS__)
+
+```
 
 ## 配置模块
 约定优于配置  
@@ -9,13 +60,53 @@ Config-->Yaml作为底层支持
 定义即配置,每个配置项有一个默认的约定，采用静态变量的方式预先定义好，读取配置文件时，没有对应的值则使用默认值，有配置的值则使用配置的值。  
 模块主要实现的方法：  
 string与复杂类型的相互转换规则  
-写入YAML文件和读取YAML文件
+写入YAML文件和读取YAML文件  
 
-
-
-
+### 实现多常用数据类型和自定义类型的支持
+主要通过实现FromString和ToString两种方法,借助模板类的偏特化,为具体类型定制解析方法,且可以叠加使用：  
+```
+vector<list<int>> ---> string
+string ---> vector<list<int>>
+```
+只要分别实现了vector和list的转化规则，便自然可以解析上面的复杂类型。  
+具体实现大致如下(以vector为例)
+```
+//从string中解析YAML
+YAML::Node n = YAML::Load(s);
+// 调用T的fromString方法,这里实现为一个仿函数的类,并为T实现一个偏特化
+// 便实现了叠加使用
+typename std::vector<T> ans;
+std::stringstream ss;
+for(size_t i = 0;i<node.size();i++){
+    ss.str("");
+    ss<<node[i];
+    ans.push_back(LexicalCast<std::string,T>()(ss.str()));
+}
+```
 ## 线程模块
-
+简单将pthread封装了一下：
+```
+Thread(std::function<void()> cb,std::string name);
+```
+接受一个std::function<void()>的线程执行体，虽然是void(),但由于标准库提供的有bind函数，故可以看成接受任何参数的执行函数。  
+另外一个有趣的点在于：  
+```
+Thread::Thread(std::function<void()> cb, std::string name):m_cb(move(cb)),
+                                                            m_name(move(name)),
+                                                            m_tid(0),
+                                                            m_thread(0){
+    if(m_name.empty()){
+        m_name = "UNKOWN";
+    }
+    int ret = pthread_create(&m_thread,NULL,Thread::run, this);
+    if(ret != 0){
+        XZMJX_LOG_ERROR(g_logger)<<"pthread_create failed,error = "<<ret<<" thread name = "<<m_name;
+        throw std::logic_error("pthread_create error");
+    }
+    m_sem.wait();
+}
+```
+构造函数最后`m_sem.wait()`,这个信号量初始为0，在run函数中执行p操作，此处的v操作才会返回，因此可以得出，构造函数返回时，也保证了线程执行函数一定跑起来了。
 
 ## 协程模块
 ### 协程相关知识学习
@@ -54,7 +145,7 @@ hook技术可以使应用程序在执行系统调用之前进行一些隐藏的�
 ### Socket封装
 
 ### ByteArray
-#### ZigZag压缩算法
+#### ZigZag算法
 补码表示：小整数前导零较多，负数前导一较多，可压缩这部分数据,通过如下算法将符号位后置，对于正数而言前面的数字不变，负数而言前面的数字取反
 ```go
 func int32ToZigZag(n int32) int32 {
@@ -79,8 +170,9 @@ func toInt32(zz int32) int32 {
                v
 0000000 | 0000000 | 0000000 | 0000000 | 0011 --> 00000011(zigzag最终)
 ```
-之后分为7位一组，加上最高位表示是否为最后一组。组成一个字节数组
- 
+使用zigzag编码之后,可使用varint进行压缩,具体为：分为7位一组，加上最高位表示是否为最后一组。组成一个字节数组
+
+### 
 
 
 
