@@ -1,13 +1,27 @@
 logs:
-    - name: root
+    - name: thr1
+      level: debug
+      appenders:
+          - type: StdoutLogAppender
+    - name: thr2
+      level: debug
+      appenders:
+          - type: StdoutLogAppender
+    - name: thr3
+      level: debug
+      appenders:
+          - type: StdoutLogAppender
+    - name: thr4
+      level: debug
+      appenders:
+          - type: StdoutLogAppender
+    - name: thr5
       level: debug
       appenders:
           - type: FileLogAppender
-            file: /home/xzmjx/work/log/root.log
-          - type: StdoutLogAppender
-    - name: system
+            file: /home/xzmjx/work/log/thr.log
+    - name: thr6
       level: debug
       appenders:
           - type: FileLogAppender
-            file: /home/xzmjx/work/log/system.log
-          - type: StdoutLogAppender
+            file: /home/xzmjx/work/log/thr.log

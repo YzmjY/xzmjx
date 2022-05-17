@@ -1,31 +1,15 @@
-cmake_minimum_required(VERSION 2.8)
-project(chat_room)
-
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/xzmjx)
-
-include (xzmjx/cmake/utils.cmake)
-
+cmake_minimum_required(VERSION 3.20)
+project(xzmjx)
 set(CMAKE_VERBOSE_MAKEFILE ON)
-set(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -rdynamic -O0 -ggdb -std=c++20 -Wall -Wno-deprecated -Werror -Wno-unused-function -Wno-builtin-macro-redefined")
+set(CMAKE_CXX_FLAGS "$ENV{CXXFLAGS} -rdynamic -g  -std=c++20  -Wall -Werror -Wno-deprecated -Wno-unused-function ")
+set(CMAKE_CXX_STANDARD 20)
 
-include_directories(.)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/xzmjx)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/xzmjx/include)
+include(cmake/utils.cmake)
 
-find_package(OpenSSL REQUIRED)
-if(OPENSSL_FOUND)
-    include_directories(${OPENSSL_INCLUDE_DIR})
-endif()
 
-set(LIB_SRC
-        chatroom/chat_module.cpp
-        chatroom/chat_protocol.cpp
-        chatroom/resource_servlet.cpp
-        chatroom/chat_servlet.cpp
-        )
+add_subdirectory(src)
+add_subdirectory(tests)
+add_definitions(-Wno-builtin-macro-redefined)
+force_redefine_file_macro_for_sources(xzmjx)
 
-add_library(chat_room SHARED ${LIB_SRC})
-force_redefine_file_macro_for_sources(chat_room)
 
-SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-SET(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib)
