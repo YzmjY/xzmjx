@@ -1,4 +1,5 @@
-# sylar协程网络库的学习
+# 协程网络库
+## [基于该网络库的多人在线聊天室](https://github.com/Zhang405/xzmjx_chatroom)
 ## 日志模块
 日志模块主要有四个类：Logger,LogEvent,LogFormatter,LogAppender,另外有两个辅助作用的类，分别是LogEventWrap和LoggerManager,各个类的职责如下：  
 - LogEvent:保存当前Log的现场信息，譬如文件名,行号,函数名...
@@ -172,7 +173,6 @@ func toInt32(zz int32) int32 {
 ```
 使用zigzag编码之后,可使用varint进行压缩,具体为：分为7位一组，加上最高位表示是否为最后一组。组成一个字节数组
 
-### 
 
 
 
