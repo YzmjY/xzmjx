@@ -39,8 +39,7 @@ set(LIB_SRC
         http/ws_session.cpp
         http/ws_servlet.cpp
         http/ws_server.cpp
-
-        example/echo_server.cpp)
+        )
 add_library(xzmjx SHARED ${LIB_SRC})
 
 set(LIBS
