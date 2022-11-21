@@ -151,6 +151,7 @@ public:
     Spinlock();
     ~Spinlock();
 
+    bool tryLock();
     void lock();
     void unlock();
 

@@ -41,7 +41,6 @@ xzmjx_add_executable(test_http_server  "test_http_server.cpp" xzmjx "${LIB}")
 xzmjx_add_executable(test_daemon  "test_daemon.cpp" xzmjx "${LIB}")
 xzmjx_add_executable(test_env  "test_env.cpp" xzmjx "${LIB}")
 
-
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 add_definitions(-Wno-builtin-macro-redefined)
 force_redefine_file_macro_for_sources(xzmjx)

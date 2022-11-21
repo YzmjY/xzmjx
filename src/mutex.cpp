@@ -63,6 +63,10 @@ namespace xzmjx{
         pthread_spin_destroy(&m_mutex);
     }
 
+    bool Spinlock::tryLock() {
+        return !(pthread_spin_trylock(&m_mutex));
+    }
+
     void Spinlock::lock(){
         pthread_spin_lock(&m_mutex);
     }
