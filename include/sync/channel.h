@@ -54,14 +54,65 @@ public:
     }
 
     void close() {
-
+        FiberMutex::Lock lock(m_rep->m_mutex);
+        if (m_rep->m_isClosed) {
+            return;
+        }
+        m_rep->m_isClosed = true;
+        // 唤醒等待的协程
+        m_rep->m_empty_cond.notify();
+        m_rep->m_full_cond.notify();
     }
 private:
-    bool tryPush(const T& v);
-    bool tryPop(T& v);
+    bool tryPush(const T& v) {
+        FiberMutex::Lock lock(m_rep->m_mutex);
+        if(isClosed()) {
+            return false;
+        }
+        if(!m_rep->m_data.push(v)) {
+            return false;
+        }
 
-    bool push(const T& v);
-    bool pop(T&v);
+        return true;
+    }
+
+    bool tryPop(T& v) {
+        FiberMutex::Lock lock(m_rep->m_mutex);
+        if(isClosed()) {
+            return false;
+        }
+        if(!m_rep->m_data.pop(v)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    bool push(const T& v) {
+        FiberMutex::Lock lock(m_rep->m_mutex);
+        while(!m_rep->m_data.push(v)) {
+            m_rep->m_empty_cond.wait(m_rep->m_mutex);
+            if(isClosed()) {
+                return false;
+            }
+        }
+
+        m_rep->m_full_cond.notify();
+        return true;
+    }
+
+    bool pop(T&v) {
+        FiberMutex::Lock lock(m_rep->m_mutex);
+        while(!m_rep->m_data.pop(v)) {
+            m_rep->m_full_cond.wait(m_rep->m_mutex);
+            if(isClosed()) {
+                return false;
+            }
+        }
+
+        m_rep->m_empty_cond.notify();
+        return true;
+    }
 
 private:
     typename Channel<T>::Rep::ptr m_rep;
