@@ -1,8 +1,0 @@
-//
-// Created by 20132 on 2022/5/7.
-//
-
-#ifndef XZMJX_HTTP_CONNECTION_H
-#define XZMJX_HTTP_CONNECTION_H
-
-#endif //XZMJX_HTTP_CONNECTION_H
