@@ -11,63 +11,61 @@
 #include <string>
 #include <functional>
 
-namespace xzmjx{
-namespace http{
-class Servlet{
+namespace xzmjx {
+namespace http {
+class Servlet {
 public:
     typedef std::shared_ptr<Servlet> ptr;
 
     Servlet(std::string name);
     virtual ~Servlet() {}
-    virtual int32_t handle(xzmjx::http::HttpRequest::ptr req
-                           ,xzmjx::http::HttpResponse::ptr rsp
-                           ,xzmjx::http::HttpSession::ptr session) = 0;
+    virtual int32_t handle(xzmjx::http::HttpRequest::ptr req, xzmjx::http::HttpResponse::ptr rsp,
+                           xzmjx::http::HttpSession::ptr session) = 0;
     const std::string& name() const { return m_name; }
 
 protected:
     std::string m_name;
 };
 
-class FunctionServlet : public Servlet{
+class FunctionServlet : public Servlet {
 public:
     typedef std::shared_ptr<FunctionServlet> ptr;
-    typedef std::function<int32_t(xzmjx::http::HttpRequest::ptr req
-                                  ,xzmjx::http::HttpResponse::ptr rsp
-                                  ,xzmjx::http::HttpSession::ptr session) > callback;
+    typedef std::function<int32_t(xzmjx::http::HttpRequest::ptr req, xzmjx::http::HttpResponse::ptr rsp,
+                                  xzmjx::http::HttpSession::ptr session)>
+        callback;
     FunctionServlet(callback cb);
-    int32_t handle(xzmjx::http::HttpRequest::ptr req
-                   ,xzmjx::http::HttpResponse::ptr rsp
-                   ,xzmjx::http::HttpSession::ptr session) override;
+    int32_t handle(xzmjx::http::HttpRequest::ptr req, xzmjx::http::HttpResponse::ptr rsp,
+                   xzmjx::http::HttpSession::ptr session) override;
+
 private:
     callback m_cb;
 };
 
-class NotFoundServlet : public Servlet{
+class NotFoundServlet : public Servlet {
 public:
     typedef std::shared_ptr<FunctionServlet> ptr;
     NotFoundServlet(const std::string& name);
-    int32_t handle(xzmjx::http::HttpRequest::ptr req
-                ,xzmjx::http::HttpResponse::ptr rsp
-                ,xzmjx::http::HttpSession::ptr session) override;
+    int32_t handle(xzmjx::http::HttpRequest::ptr req, xzmjx::http::HttpResponse::ptr rsp,
+                   xzmjx::http::HttpSession::ptr session) override;
+
 private:
     std::string m_content;
     std::string m_name;
 };
 
-class ServletDispatch : public Servlet{
+class ServletDispatch : public Servlet {
 public:
     typedef std::shared_ptr<ServletDispatch> ptr;
     typedef RWMutex RWMutexType;
 
     ServletDispatch();
-    int32_t handle(xzmjx::http::HttpRequest::ptr req
-                   ,xzmjx::http::HttpResponse::ptr rsp
-                   ,xzmjx::http::HttpSession::ptr session) override;
+    int32_t handle(xzmjx::http::HttpRequest::ptr req, xzmjx::http::HttpResponse::ptr rsp,
+                   xzmjx::http::HttpSession::ptr session) override;
 
-    void addServlet(const std::string& uri,Servlet::ptr slt);
-    void addServlet(const std::string& uri,FunctionServlet::callback cb);
-    void addGlobServlet(const std::string& uri,Servlet::ptr slt);
-    void addGlobServlet(const std::string& uri,FunctionServlet::callback cb);
+    void addServlet(const std::string& uri, Servlet::ptr slt);
+    void addServlet(const std::string& uri, FunctionServlet::callback cb);
+    void addGlobServlet(const std::string& uri, Servlet::ptr slt);
+    void addGlobServlet(const std::string& uri, FunctionServlet::callback cb);
 
     void delServlet(const std::string& uri);
     void delGlobServlet(const std::string& uri);
@@ -84,14 +82,12 @@ public:
 
 protected:
     RWMutexType m_rwlock;
-    std::unordered_map<std::string,Servlet::ptr> m_datas;
-    std::vector<std::pair<std::string,Servlet::ptr>> m_globs;
+    std::unordered_map<std::string, Servlet::ptr> m_datas;
+    std::vector<std::pair<std::string, Servlet::ptr>> m_globs;
     Servlet::ptr m_default;
 };
 
+} // namespace http
+} // namespace xzmjx
 
-}
-}
-
-
-#endif //XZMJX_SERVLET_H
+#endif // XZMJX_SERVLET_H

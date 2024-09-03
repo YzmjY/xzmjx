@@ -10,7 +10,7 @@
 #include "ds/circle_buffer.h"
 
 namespace xzmjx {
-template<typename T>
+template <typename T>
 class Channel {
     struct Rep {
         bool m_isClosed;
@@ -22,9 +22,9 @@ class Channel {
         FiberCondvar m_full_cond;
 
         using ptr = std::shared_ptr<Rep>;
-        Rep():m_capacity(0)
-             ,m_size(0) {}
+        Rep() : m_capacity(0), m_size(0) {}
     };
+
 public:
     using ptr = std::shared_ptr<Channel<T>>;
 
@@ -41,17 +41,11 @@ public:
         return *this;
     }
 
-    bool isClosed() const {
-        return this->m_rep->m_isClosed;
-    }
+    bool isClosed() const { return this->m_rep->m_isClosed; }
 
-    uint64_t size() const {
-        return this->m_rep->m_size;
-    }
+    uint64_t size() const { return this->m_rep->m_size; }
 
-    uint64_t capacity() const {
-        return this->m_rep->m_capacity;
-    }
+    uint64_t capacity() const { return this->m_rep->m_capacity; }
 
     void close() {
         FiberMutex::Lock lock(m_rep->m_mutex);
@@ -63,13 +57,14 @@ public:
         m_rep->m_empty_cond.notify();
         m_rep->m_full_cond.notify();
     }
+
 private:
     bool tryPush(const T& v) {
         FiberMutex::Lock lock(m_rep->m_mutex);
-        if(isClosed()) {
+        if (isClosed()) {
             return false;
         }
-        if(!m_rep->m_data.push(v)) {
+        if (!m_rep->m_data.push(v)) {
             return false;
         }
 
@@ -78,10 +73,10 @@ private:
 
     bool tryPop(T& v) {
         FiberMutex::Lock lock(m_rep->m_mutex);
-        if(isClosed()) {
+        if (isClosed()) {
             return false;
         }
-        if(!m_rep->m_data.pop(v)) {
+        if (!m_rep->m_data.pop(v)) {
             return false;
         }
 
@@ -90,9 +85,9 @@ private:
 
     bool push(const T& v) {
         FiberMutex::Lock lock(m_rep->m_mutex);
-        while(!m_rep->m_data.push(v)) {
+        while (!m_rep->m_data.push(v)) {
             m_rep->m_empty_cond.wait(m_rep->m_mutex);
-            if(isClosed()) {
+            if (isClosed()) {
                 return false;
             }
         }
@@ -101,11 +96,11 @@ private:
         return true;
     }
 
-    bool pop(T&v) {
+    bool pop(T& v) {
         FiberMutex::Lock lock(m_rep->m_mutex);
-        while(!m_rep->m_data.pop(v)) {
+        while (!m_rep->m_data.pop(v)) {
             m_rep->m_full_cond.wait(m_rep->m_mutex);
-            if(isClosed()) {
+            if (isClosed()) {
                 return false;
             }
         }
@@ -117,7 +112,6 @@ private:
 private:
     typename Channel<T>::Rep::ptr m_rep;
 };
-}
+} // namespace xzmjx
 
-
-#endif //XZMJX_CHANNEL_H
+#endif // XZMJX_CHANNEL_H

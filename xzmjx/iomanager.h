@@ -6,25 +6,22 @@
 #define XZMJX_IOMANAGER_H
 #include <scheduler.h>
 #include "timer.h"
-namespace xzmjx{
-class IOManager:public Scheduler{
+namespace xzmjx {
+class IOManager : public Scheduler {
 public:
     typedef std::shared_ptr<IOManager> ptr;
     typedef RWMutex MutexType;
 
-    enum Event{
-        Event_NONE = 0x0,
-        Event_READ = 0x1,
-        Event_WRITE = 0x4
-    };
+    enum Event { Event_NONE = 0x0, Event_READ = 0x1, Event_WRITE = 0x4 };
+
 private:
     /**
      * @brief 每个fd绑定一个FdContex来获取其上下文
      */
-    struct FdContext{
+    struct FdContext {
         typedef Mutex MutexType;
 
-        struct EventContext{
+        struct EventContext {
             Scheduler* scheduler = nullptr;
             Fiber::ptr fiber;
             std::function<void()> cb;
@@ -42,22 +39,21 @@ private:
     };
 
 public:
-    explicit IOManager(size_t thrNum = 4,const std::string& name = "Scheduler");
+    explicit IOManager(size_t thrNum = 4, const std::string& name = "Scheduler");
     ~IOManager() override;
 
-    int addEvent(int fd,Event event,std::function<void()> cb = nullptr);
-    bool delEvent(int fd,Event event);
+    int addEvent(int fd, Event event, std::function<void()> cb = nullptr);
+    bool delEvent(int fd, Event event);
     bool delAll(int fd);
-    bool cancelEvent(int fd,Event event);
+    bool cancelEvent(int fd, Event event);
     bool cancelAll(int fd);
 
-    Timer::ptr addTimerEvent(uint64_t ms,std::function<void()> cb,bool recurring = false);
+    Timer::ptr addTimerEvent(uint64_t ms, std::function<void()> cb, bool recurring = false);
 
-    Timer::ptr addCondTimerEvent(uint64_t ms,std::function<void()> cb,std::weak_ptr<void> cond,bool recurring = false);
+    Timer::ptr addCondTimerEvent(uint64_t ms, std::function<void()> cb, std::weak_ptr<void> cond,
+                                 bool recurring = false);
 
-    TimerManager::ptr timerManager() const{
-        return m_time_manager;
-    }
+    TimerManager::ptr timerManager() const { return m_time_manager; }
     static IOManager* Self();
 
 protected:
@@ -69,13 +65,13 @@ protected:
     void contextResize(size_t size);
 
 private:
-    std::vector<FdContext*> m_fd_contexts;      ///所有fd的上下文，使用fd作为下标寻址
-    int m_epoll_fd = 0;                         ///epoll文件描述符
-    int m_tickle_fds[2];                        ///管道的读写两端，用来notify等在epoll_wait的调度器线程，具体来说，wait协程会监视管道的读端
-    std::atomic<size_t> m_pending_event_count = {0};///当前待执行的事件数
+    std::vector<FdContext*> m_fd_contexts; /// 所有fd的上下文，使用fd作为下标寻址
+    int m_epoll_fd = 0;                    /// epoll文件描述符
+    int m_tickle_fds[2]; /// 管道的读写两端，用来notify等在epoll_wait的调度器线程，具体来说，wait协程会监视管道的读端
+    std::atomic<size_t> m_pending_event_count = {0}; /// 当前待执行的事件数
     RWMutex m_mutex;
     TimerManager::ptr m_time_manager;
 };
-}///namespace xzmjx
+} // namespace xzmjx
 
-#endif //XZMJX_IOMANAGER_H
+#endif // XZMJX_IOMANAGER_H

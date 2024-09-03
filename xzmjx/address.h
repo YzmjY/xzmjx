@@ -14,10 +14,9 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 
-
-namespace xzmjx{
+namespace xzmjx {
 class IPAddress;
-class Address{
+class Address {
 public:
     typedef std::shared_ptr<Address> ptr;
     Address() = default;
@@ -29,7 +28,7 @@ public:
      * @param addrlen
      * @return
      */
-    static Address::ptr Create(const sockaddr* addr,socklen_t addrlen);
+    static Address::ptr Create(const sockaddr* addr, socklen_t addrlen);
 
     /**
      * @brief 查询host对应的Address
@@ -40,10 +39,7 @@ public:
      * @param protocol
      * @return
      */
-    static bool Lookup(std::vector<Address::ptr>& result,
-                       const std::string& host,
-                       int family = AF_INET,
-                       int type = 0,
+    static bool Lookup(std::vector<Address::ptr>& result, const std::string& host, int family = AF_INET, int type = 0,
                        int protocol = 0);
 
     /**
@@ -54,10 +50,7 @@ public:
      * @param protocol
      * @return
      */
-    static Address::ptr LookupAny(const std::string& host,
-                                  int family = AF_INET,
-                                  int type = 0,
-                                  int protocol = 0);
+    static Address::ptr LookupAny(const std::string& host, int family = AF_INET, int type = 0, int protocol = 0);
 
     /**
      * @brief 查询host对应的IPAddress
@@ -67,16 +60,13 @@ public:
      * @param protocol
      * @return
      */
-    static std::shared_ptr<IPAddress> LookupAnyIPAddress(const std::string& host,
-                                                         int family = AF_INET,
-                                                         int type = 0,
+    static std::shared_ptr<IPAddress> LookupAnyIPAddress(const std::string& host, int family = AF_INET, int type = 0,
                                                          int protocol = 0);
 
-    static bool GetInterfaceAddress(std::multimap<std::string,std::pair<Address::ptr,uint32_t>>&result,
+    static bool GetInterfaceAddress(std::multimap<std::string, std::pair<Address::ptr, uint32_t>>& result,
                                     int family = AF_INET);
 
-    static bool GetInterfaceAddress(std::pair<Address::ptr,uint32_t>&result,
-                                    const std::string& iface,
+    static bool GetInterfaceAddress(std::pair<Address::ptr, uint32_t>& result, const std::string& iface,
                                     int family = AF_INET);
 
     int getFamily() const;
@@ -97,11 +87,11 @@ public:
     bool operator!=(const Address& rhs) const;
 };
 
-class IPAddress:public Address{
+class IPAddress : public Address {
 public:
     typedef std::shared_ptr<IPAddress> ptr;
 
-    static IPAddress::ptr Create(const char* address,uint16_t port = 0);
+    static IPAddress::ptr Create(const char* address, uint16_t port = 0);
 
     virtual IPAddress::ptr broadcastAddress(uint32_t prefix_len) = 0;
 
@@ -114,13 +104,13 @@ public:
     virtual void setPort(uint16_t port) = 0;
 };
 
-class IPv4Address:public IPAddress{
+class IPv4Address : public IPAddress {
 public:
     typedef std::shared_ptr<IPv4Address> ptr;
-    static IPv4Address::ptr Create(const char* address,uint16_t port = 0);
+    static IPv4Address::ptr Create(const char* address, uint16_t port = 0);
 
     IPv4Address(const sockaddr_in& address);
-    IPv4Address(uint32_t address = INADDR_ANY,uint16_t port = 0);
+    IPv4Address(uint32_t address = INADDR_ANY, uint16_t port = 0);
 
     const sockaddr* getAddr() const override;
     sockaddr* getAddr() override;
@@ -142,14 +132,14 @@ private:
     sockaddr_in m_address;
 };
 
-class IPv6Address:public IPAddress{
+class IPv6Address : public IPAddress {
 public:
     typedef std::shared_ptr<IPv6Address> ptr;
-    static IPv6Address::ptr Create(const char* address,uint16_t port = 0);
+    static IPv6Address::ptr Create(const char* address, uint16_t port = 0);
 
     IPv6Address();
     IPv6Address(const sockaddr_in6& address);
-    IPv6Address(const uint8_t address[16],uint16_t port = 0);
+    IPv6Address(const uint8_t address[16], uint16_t port = 0);
 
     const sockaddr* getAddr() const override;
     sockaddr* getAddr() override;
@@ -163,7 +153,6 @@ public:
 
     std::ostream& insert(std::ostream& out) override;
 
-
     uint32_t getPort() const override;
 
     void setPort(uint16_t port) override;
@@ -172,7 +161,7 @@ private:
     sockaddr_in6 m_address;
 };
 
-class UnixAddress:public Address{
+class UnixAddress : public Address {
 public:
     typedef std::shared_ptr<UnixAddress> ptr;
     UnixAddress();
@@ -196,7 +185,7 @@ private:
     socklen_t m_length;
 };
 
-class UnknownAddress:public Address{
+class UnknownAddress : public Address {
 public:
     typedef std::shared_ptr<UnknownAddress> ptr;
     UnknownAddress(int family);
@@ -215,9 +204,6 @@ private:
     sockaddr m_address;
 };
 
+} // namespace xzmjx
 
-
-
-}
-
-#endif //XZMJX_ADDRESS_H
+#endif // XZMJX_ADDRESS_H

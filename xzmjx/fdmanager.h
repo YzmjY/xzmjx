@@ -10,8 +10,8 @@
 #include "mutex.h"
 #include "singleton.h"
 
-namespace xzmjx{
-class FdCtx:std::enable_shared_from_this<FdCtx>{
+namespace xzmjx {
+class FdCtx : std::enable_shared_from_this<FdCtx> {
 public:
     typedef std::shared_ptr<FdCtx> ptr;
 
@@ -19,43 +19,43 @@ public:
     ~FdCtx();
     bool init();
 
-    bool isInit() const {return m_is_init;}
+    bool isInit() const { return m_is_init; }
 
-    bool isSocket() const {return m_is_socket;}
+    bool isSocket() const { return m_is_socket; }
 
-    bool isClose() const { return m_is_closed;}
+    bool isClose() const { return m_is_closed; }
 
-    void setSysNonblock(bool flag){ m_sys_nonblock = flag;}
-    bool getSysNonblock() const { return m_sys_nonblock;}
+    void setSysNonblock(bool flag) { m_sys_nonblock = flag; }
+    bool getSysNonblock() const { return m_sys_nonblock; }
 
-    void setUserNonblock(bool flag){ m_user_nonblock = flag;}
-    bool getUserNonblock() const { return m_user_nonblock;}
+    void setUserNonblock(bool flag) { m_user_nonblock = flag; }
+    bool getUserNonblock() const { return m_user_nonblock; }
 
-    void setTimeout(int type,uint64_t timeout);
+    void setTimeout(int type, uint64_t timeout);
     uint64_t getTimeout(int type) const;
 
     std::string toString();
+
 private:
-    bool m_is_init:1;
-    bool m_is_socket:1;
-    bool m_sys_nonblock:1;
-    bool m_user_nonblock:1;
-    bool m_is_closed:1;
+    bool m_is_init : 1;
+    bool m_is_socket : 1;
+    bool m_sys_nonblock : 1;
+    bool m_user_nonblock : 1;
+    bool m_is_closed : 1;
     int m_fd;
     uint64_t m_recv_timeout;
     uint64_t m_send_timeout;
 };
 
-
-class FdManager{
+class FdManager {
 public:
     typedef RWMutex RWMutexType;
     typedef std::shared_ptr<FdManager> ptr;
 
     FdManager();
-    ~FdManager()  =default;
+    ~FdManager() = default;
 
-    FdCtx::ptr get(int fd,bool auto_create = false);
+    FdCtx::ptr get(int fd, bool auto_create = false);
     void del(int fd);
 
 private:
@@ -64,7 +64,6 @@ private:
 };
 
 typedef SingletonPtr<FdManager> FdMgr;
-}
+} // namespace xzmjx
 
-
-#endif //XZMJX_FDMANAGER_H
+#endif // XZMJX_FDMANAGER_H

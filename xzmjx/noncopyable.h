@@ -5,7 +5,7 @@
 #ifndef XZMJX_NONCOPYABLE_H
 #define XZMJX_NONCOPYABLE_H
 
-namespace xzmjx{
+namespace xzmjx {
 class Noncopyable {
 public:
     Noncopyable() = default;
@@ -14,6 +14,6 @@ public:
     Noncopyable(const Noncopyable&) = delete;
     Noncopyable& operator=(const Noncopyable&) = delete;
 };
-}///namespace xzmjx
+} // namespace xzmjx
 
-#endif //XZMJX_NONCOPYABLE_H
+#endif // XZMJX_NONCOPYABLE_H

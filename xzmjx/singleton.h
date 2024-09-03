@@ -6,16 +6,15 @@
 #define XZMJX_SINGLETON_H
 #include <memory>
 
-namespace xzmjx{
-template<typename T>
-class SingletonPtr{
+namespace xzmjx {
+template <typename T>
+class SingletonPtr {
 public:
-    static typename T::ptr GetInstance(){
+    static typename T::ptr GetInstance() {
         static typename T::ptr instance(new T);
         return instance;
     }
 };
-}///namespace xzmjx
+} // namespace xzmjx
 
-
-#endif //XZMJX_SINGLETON_H
+#endif // XZMJX_SINGLETON_H

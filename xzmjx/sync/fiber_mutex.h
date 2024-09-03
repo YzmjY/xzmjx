@@ -10,10 +10,9 @@
 #include "fiber.h"
 #include "mutex.h"
 
-
 namespace xzmjx {
 class Scheduler;
-class FiberMutex{
+class FiberMutex {
 public:
     using MutexType = Spinlock;
     using Lock = ScopedLockImpl<FiberMutex>;
@@ -25,12 +24,11 @@ public:
     void unlock();
 
 private:
-    std::queue<std::pair<Scheduler*,Fiber::ptr>> m_wait_queue;
+    std::queue<std::pair<Scheduler *, Fiber::ptr>> m_wait_queue;
     MutexType m_lock;
     MutexType m_queue_lock;
     uint64_t m_fiber_id;
 };
-}
+} // namespace xzmjx
 
-
-#endif //XZMJX_FIBER_MUTEX_H
+#endif // XZMJX_FIBER_MUTEX_H

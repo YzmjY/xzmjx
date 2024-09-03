@@ -3,17 +3,15 @@
 
 #include <memory>
 #include "ds/bitmap.h"
-namespace xzmjx{
-namespace ds{
+namespace xzmjx {
+namespace ds {
 
 class BloomFilter {
 public:
     typedef std::shared_ptr<BloomFilter> ptr;
 
 private:
-    uint32_t hash(const std::string& s) {
-        return (uint32_t)std::hash<std::string>()(s);
-    }
+    uint32_t hash(const std::string& s) { return (uint32_t)std::hash<std::string>()(s); }
 
 public:
     explicit BloomFilter(int bitsPerKey, int n);
@@ -21,8 +19,7 @@ public:
 
 public:
     void add(const std::string& key);
-    bool mayMatch(const std::string& key); 
-
+    bool mayMatch(const std::string& key);
 
 private:
     uint32_t m_bitsPerKey;
@@ -32,9 +29,5 @@ private:
 };
 } // namespace ds
 } // namespace xzmjx
-
-
-
-
 
 #endif

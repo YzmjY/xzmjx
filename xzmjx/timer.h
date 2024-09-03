@@ -10,10 +10,11 @@
 #include <set>
 #include <vector>
 
-namespace xzmjx{
+namespace xzmjx {
 class TimerManager;
-class Timer: public std::enable_shared_from_this<Timer>{
+class Timer : public std::enable_shared_from_this<Timer> {
     friend class TimerManager;
+
 public:
     typedef std::shared_ptr<Timer> ptr;
 
@@ -37,7 +38,7 @@ public:
      * @param from_now 是否从当前时间开始计算
      * @return
      */
-    bool reset(uint64_t ms,bool from_now);
+    bool reset(uint64_t ms, bool from_now);
 
 private:
     /**
@@ -47,7 +48,7 @@ private:
      * @param recurring 是否为周期性定时时间
      * @param manager 所属定时管理器
      */
-    Timer(uint64_t ms,std::function<void()> cb,bool recurring,TimerManager* manager);
+    Timer(uint64_t ms, std::function<void()> cb, bool recurring, TimerManager* manager);
 
     /**
      * @brief 临时构造，查询到期时间时比较用
@@ -56,23 +57,24 @@ private:
     Timer(uint64_t next);
 
 private:
-    bool m_recurring = false;               ///是否循环该定时器
-    uint64_t m_ms = 0;                      ///定时器相对间隔
-    uint64_t m_next = 0;                    ///定时器的绝对过期时间
-    std::function<void()> m_cb;             ///定时器回调函数
-    TimerManager* m_manager = nullptr;      ///所属的定时器管理器
+    bool m_recurring = false;          /// 是否循环该定时器
+    uint64_t m_ms = 0;                 /// 定时器相对间隔
+    uint64_t m_next = 0;               /// 定时器的绝对过期时间
+    std::function<void()> m_cb;        /// 定时器回调函数
+    TimerManager* m_manager = nullptr; /// 所属的定时器管理器
 
 private:
     /**
      * @brief 基于过期时间比较两定时器的大小
      */
-    struct Comparator{
-        bool operator()(const Timer::ptr& lhs,const Timer::ptr& rhs) const;
+    struct Comparator {
+        bool operator()(const Timer::ptr& lhs, const Timer::ptr& rhs) const;
     };
 };
 
-class TimerManager{
+class TimerManager {
     friend class Timer;
+
 public:
     typedef RWMutex RWMutexType;
     typedef std::shared_ptr<TimerManager> ptr;
@@ -87,12 +89,13 @@ public:
      * @param recurring
      * @return
      */
-    Timer::ptr addTimer(uint64_t ms,std::function<void()> cb,bool recurring = false);
+    Timer::ptr addTimer(uint64_t ms, std::function<void()> cb, bool recurring = false);
 
-    Timer::ptr addCondTimer(uint64_t ms,std::function<void()> cb,std::weak_ptr<void> cond,bool recurring = false);
+    Timer::ptr addCondTimer(uint64_t ms, std::function<void()> cb, std::weak_ptr<void> cond, bool recurring = false);
 
     /**
-     * @brief 返回当前已到期的定时器，内部会一处过期且不周期执行的定时器，重新添加过期但需要周期执行的定时器
+     * @brief
+     * 返回当前已到期的定时器，内部会一处过期且不周期执行的定时器，重新添加过期但需要周期执行的定时器
      * @param cbs ：返回值，返回待处理的定时任务
      */
     void listExpiredCb(std::vector<std::function<void()>>& cbs);
@@ -110,14 +113,13 @@ public:
     void setInsertAtFrontCb(std::function<void()> cb);
 
 private:
-    void addTimer(Timer::ptr timer,RWMutexType::WriteLock& lock);
+    void addTimer(Timer::ptr timer, RWMutexType::WriteLock& lock);
+
 private:
-    std::set<Timer::ptr,Timer::Comparator> m_timers;
+    std::set<Timer::ptr, Timer::Comparator> m_timers;
     RWMutexType m_mutex;
     std::function<void()> m_onTimerInsertAtFrontCb;
 };
-}///namespace xzmjx
+} // namespace xzmjx
 
-
-
-#endif //XZMJX_TIMER_H
+#endif // XZMJX_TIMER_H

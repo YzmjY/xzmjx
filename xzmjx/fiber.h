@@ -20,12 +20,12 @@
  * fiber之间不进行切换，需要先切换会main_fiber
  * 当前协程和主协程通过一个线程局部变量保存
  */
-namespace xzmjx{
+namespace xzmjx {
 /**
  * @brief 协程类，封装了ucontext相关接口，实现了yield和resume语义的操作
  * @details
  */
-class Fiber:public std::enable_shared_from_this<Fiber>{
+class Fiber : public std::enable_shared_from_this<Fiber> {
 public:
     typedef std::shared_ptr<Fiber> ptr;
     typedef std::weak_ptr<Fiber> wptr;
@@ -33,23 +33,25 @@ public:
     /**
      * @brief 协程状态枚举
      */
-    enum FiberState{
-        FIBER_INIT,       ///初始化中
-        FIBER_RUNNING,    ///执行中
-        FIBER_HOLD,       ///被挂起
-        FIBER_READY,      ///就绪
-        FIBER_TERM,       ///终止
-        FIBER_EXCEPT      ///异常
+    enum FiberState {
+        FIBER_INIT,    /// 初始化中
+        FIBER_RUNNING, /// 执行中
+        FIBER_HOLD,    /// 被挂起
+        FIBER_READY,   /// 就绪
+        FIBER_TERM,    /// 终止
+        FIBER_EXCEPT   /// 异常
     };
+
 public:
     /**
      * @brief 构造一个协程，指定协程执行体和协程栈大小
-     * @details 这里只是调用ucontext的接口创建了一个协程对象，但此时协程并没有跑起来，需要resume才行
+     * @details
+     * 这里只是调用ucontext的接口创建了一个协程对象，但此时协程并没有跑起来，需要resume才行
      * @param cb：函数对象
      * @param stackSize：指定的栈大小
      * @param run_on_scheduler：是否使用调度器调度
      */
-    explicit Fiber(std::function<void()>cb,uint32_t stackSize = 0);
+    explicit Fiber(std::function<void()> cb, uint32_t stackSize = 0);
 
     /**
      * @brief 析构函数，释放当前协程栈
@@ -76,11 +78,9 @@ public:
      * @brief 返回当前协程id
      * @return
      */
-    uint64_t getId() const {return m_fiberId;}
+    uint64_t getId() const { return m_fiberId; }
 
-    FiberState getState(){
-        return m_state;
-    }
+    FiberState getState() { return m_state; }
 
     /**
      * @brief 切换当前协程到后台，并且设置为HOLD状态
@@ -135,15 +135,15 @@ private:
      * @brief 协程执行体
      */
     static void Coroutine();
+
 private:
-    ucontext_t m_context;       ///context上下文
-    uint32_t m_stackSize;       ///协程栈大小
-    void* m_stack;              ///协程栈地址
-    std::function<void()> m_cb; ///协程回调入口
-    uint64_t m_fiberId;         ///协程id号
+    ucontext_t m_context;       /// context上下文
+    uint32_t m_stackSize;       /// 协程栈大小
+    void* m_stack;              /// 协程栈地址
+    std::function<void()> m_cb; /// 协程回调入口
+    uint64_t m_fiberId;         /// 协程id号
     FiberState m_state;
 };
-}///namespace xzmjx
+} // namespace xzmjx
 
-
-#endif //XZMJX_FIBER_H
+#endif // XZMJX_FIBER_H

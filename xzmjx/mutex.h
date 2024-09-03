@@ -8,29 +8,29 @@
 #include <pthread.h>
 #include <semaphore.h>
 
-namespace xzmjx{
-template<typename T>
-class ScopedLockImpl{
+namespace xzmjx {
+template <typename T>
+class ScopedLockImpl {
 public:
-    ScopedLockImpl(T& mutex):m_mutex(mutex){
+    ScopedLockImpl(T& mutex) : m_mutex(mutex) {
         m_mutex.lock();
         m_locked = true;
     }
-    ~ScopedLockImpl(){
-        if(m_locked){
+    ~ScopedLockImpl() {
+        if (m_locked) {
             m_mutex.unlock();
             m_locked = false;
         }
     }
 
-    void lock(){
-        if(!m_locked){
+    void lock() {
+        if (!m_locked) {
             m_mutex.lock();
             m_locked = true;
         }
     }
-    void unlock(){
-        if(m_locked){
+    void unlock() {
+        if (m_locked) {
             m_mutex.unlock();
             m_locked = false;
         }
@@ -41,28 +41,28 @@ private:
     bool m_locked;
 };
 
-template<typename T>
-class WriteScopedLockImpl{
+template <typename T>
+class WriteScopedLockImpl {
 public:
-    WriteScopedLockImpl(T& mutex):m_mutex(mutex){
+    WriteScopedLockImpl(T& mutex) : m_mutex(mutex) {
         m_mutex.wrlock();
         m_locked = true;
     }
-    ~WriteScopedLockImpl(){
-        if(m_locked){
+    ~WriteScopedLockImpl() {
+        if (m_locked) {
             m_mutex.unlock();
             m_locked = false;
         }
     }
 
-    void lock(){
-        if(!m_locked){
+    void lock() {
+        if (!m_locked) {
             m_mutex.wrlock();
             m_locked = true;
         }
     }
-    void unlock(){
-        if(m_locked){
+    void unlock() {
+        if (m_locked) {
             m_mutex.unlock();
             m_locked = false;
         }
@@ -73,28 +73,28 @@ private:
     bool m_locked;
 };
 
-template<typename T>
-class ReadScopedLockImpl{
+template <typename T>
+class ReadScopedLockImpl {
 public:
-    ReadScopedLockImpl(T& mutex):m_mutex(mutex){
+    ReadScopedLockImpl(T& mutex) : m_mutex(mutex) {
         m_mutex.rdlock();
         m_locked = true;
     }
-    ~ReadScopedLockImpl(){
-        if(m_locked){
+    ~ReadScopedLockImpl() {
+        if (m_locked) {
             m_mutex.unlock();
             m_locked = false;
         }
     }
 
-    void lock(){
-        if(!m_locked){
+    void lock() {
+        if (!m_locked) {
             m_mutex.rdlock();
             m_locked = true;
         }
     }
-    void unlock(){
-        if(m_locked){
+    void unlock() {
+        if (m_locked) {
             m_mutex.unlock();
             m_locked = false;
         }
@@ -104,7 +104,7 @@ private:
     T& m_mutex;
     bool m_locked;
 };
-class Mutex:public Noncopyable{
+class Mutex : public Noncopyable {
 public:
     typedef ScopedLockImpl<Mutex> Lock;
 
@@ -118,20 +118,21 @@ private:
     pthread_mutex_t m_mutex;
 };
 
-class Semaphore: public Noncopyable{
+class Semaphore : public Noncopyable {
 public:
     Semaphore(int count = 0);
     ~Semaphore();
 
     void wait();
     void notify();
+
 private:
     sem_t m_sem;
 };
 
-class RWMutex:public Noncopyable{
+class RWMutex : public Noncopyable {
 public:
-    typedef  WriteScopedLockImpl<RWMutex> WriteLock;
+    typedef WriteScopedLockImpl<RWMutex> WriteLock;
     typedef ReadScopedLockImpl<RWMutex> ReadLock;
 
     RWMutex();
@@ -140,11 +141,12 @@ public:
     void rdlock();
     void wrlock();
     void unlock();
+
 private:
     pthread_rwlock_t m_rwmutex;
 };
 
-class Spinlock:public Noncopyable{
+class Spinlock : public Noncopyable {
 public:
     typedef ScopedLockImpl<Spinlock> Lock;
 
@@ -158,6 +160,6 @@ public:
 private:
     pthread_spinlock_t m_mutex;
 };
-}///namespace xzmjx
+} // namespace xzmjx
 
-#endif //XZMJX_MUTEX_H
+#endif // XZMJX_MUTEX_H

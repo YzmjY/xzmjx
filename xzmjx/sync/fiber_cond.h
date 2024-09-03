@@ -17,8 +17,8 @@ public:
 
 private:
     MutexType m_mutex;
-    std::queue<std::pair<Scheduler*,Fiber::ptr>> m_wait_queue;
+    std::queue<std::pair<Scheduler*, Fiber::ptr>> m_wait_queue;
 };
-}
+} // namespace xzmjx
 
-#endif //XZMJX_FIBER_COND_H
+#endif // XZMJX_FIBER_COND_H
